@@ -13,7 +13,7 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   wpewebkit:
-    command: wpe --loop "https://glancr.de"
+    command: launch-wpe "https://glancr.de"
     daemon: simple
     restart-condition: always
 
@@ -97,10 +97,32 @@ parts:
       - libxslt1-dev
       - libgstreamer-plugins-base1.0-dev
     override-build: |
-      export CC=/usr/bin/clang 
+      g++ -dM -E -x c++ - < /dev/null
+      exit
+
+      #export CC=/usr/bin/clang 
+      #export CXX=/usr/bin/clang++
+      #cmake -DPORT=WPE -DCMAKE_BUILD_TYPE=Release -GNinja
+      #ninja
+      #ninja install
+    organize:
+      usr/libexec/*: usr/bin/
+
+
+  wpewebkit-launcher:
+    after: [wpe-webkit]
+    source: https://github.com/WebPlatformForEmbedded/WPEWebKitLauncher.git
+    source-branch: wpe-2.22
+    plugin: dump
+    override-build: |
+      export CC=/usr/bin/clang
       export CXX=/usr/bin/clang++
       cmake -DPORT=WPE -DCMAKE_BUILD_TYPE=Release -GNinja
       ninja
       ninja install
 
-      #snapcraftctl build
+  launch-wpe:
+    plugin: dump
+    source: src
+    organize:
+      launch-wpe: bin/
