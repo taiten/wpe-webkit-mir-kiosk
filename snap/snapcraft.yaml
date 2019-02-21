@@ -96,10 +96,12 @@ parts:
       - libwebp-dev
       - libxslt1-dev
       - libgstreamer-plugins-base1.0-dev
+    override-pull: |
+      snapcraftctl pull
+      cp ../../../project/BPlatform.h Source/bmalloc/bmalloc/BPlatform.h
     override-build: |
-      clang -x c++ /dev/null -dM -E
-      clang -x c /dev/null -dM -E
-      exit
+      # clang -x c++ /dev/null -dM -E
+      # clang -x c /dev/null -dM -E
 
       export CC=/usr/bin/clang 
       export CXX=/usr/bin/clang++
