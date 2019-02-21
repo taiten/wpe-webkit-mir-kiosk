@@ -100,8 +100,10 @@ parts:
       snapcraftctl pull
       # Add correct compiler macro for clang, see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
       sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-      sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h # LN+1 from prev addition
+      sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h # LN+1 from prev insertion
       cat Source/bmalloc/bmalloc/BPlatform.h
+      sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
+      sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h # LN+1 from prev insertion
     override-build: |
       # clang -x c++ /dev/null -dM -E
       # clang -x c /dev/null -dM -E
