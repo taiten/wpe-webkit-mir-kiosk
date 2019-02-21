@@ -104,6 +104,10 @@ parts:
       cat Source/bmalloc/bmalloc/BPlatform.h
       sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
       sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h # LN+1 from prev insertion
+
+      # disable webassembly
+      sed -i '43iWEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEBASSEMBLY PRIVATE OFF)' Source/cmake/OptionsWPE.cmake
+
     override-build: |
       # clang -x c++ /dev/null -dM -E
       # clang -x c /dev/null -dM -E
@@ -126,7 +130,7 @@ parts:
     override-build: |
       export CC=/usr/bin/clang
       export CXX=/usr/bin/clang++
-      cmake -DPORT=WPE -DCMAKE_BUILD_TYPE=Release -GNinja
+      cmake -DCMAKE_BUILD_TYPE=Release -GNinja
       ninja
       ninja install
 
