@@ -100,15 +100,18 @@ parts:
       snapcraftctl pull
       # Add correct compiler macro for clang, see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
       sed -i '183i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+      cat Source/bmalloc/bmalloc/BPlatform.h
     override-build: |
       # clang -x c++ /dev/null -dM -E
       # clang -x c /dev/null -dM -E
+      cat Source/bmalloc/bmalloc/BPlatform.h
+      exit
 
-      export CC=/usr/bin/clang 
-      export CXX=/usr/bin/clang++
-      cmake -DPORT=WPE -DCMAKE_BUILD_TYPE=Release -GNinja
-      ninja
-      ninja install
+      #export CC=/usr/bin/clang 
+      #export CXX=/usr/bin/clang++
+      #cmake -DPORT=WPE -DCMAKE_BUILD_TYPE=Release -GNinja
+      #ninja
+      #ninja install
     organize:
       usr/libexec/*: usr/bin/
 
