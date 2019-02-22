@@ -114,6 +114,7 @@ parts:
 
       # export CC=/usr/bin/clang 
       # export CXX=/usr/bin/clang++
+      ln -s /usr/bin/python2.7 /usr/bin/python # 
       cmake -DPORT=WPE -DCMAKE_BUILD_TYPE=Release -DENABLE_WEBASSEMBLY=OFF -GNinja
       ninja
       ninja install
