@@ -1,6 +1,6 @@
 name: webkit-embedded # you probably want to 'snapcraft register <name>'
 base: core18 # the base snap is the execution environment for this snap
-version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
+version: "0.1" # just for humans, typically '1.2+git' or '1.3.2'
 summary: Single-line elevator pitch for your amazing snap # 79 char long summary
 description: |
   This is my-snap's description. You have a paragraph or two to tell the
@@ -38,7 +38,7 @@ parts:
       cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -GNinja
       ninja
       ninja install
-    
+
   wpebackend-fdo:
     after: [libwpe]
     plugin: dump
@@ -69,11 +69,11 @@ parts:
     after: [wpebackend-fdo]
     plugin: dump
     source: https://wpewebkit.org/releases/wpewebkit-2.22.4.tar.xz
-#    configflags:
-#      - -DCMAKE_C_COMPILER=/usr/bin/clang
-#      - -DCMAKE_CXX_COMPILER=/usr/bin/clang++
-#      - -DPORT=WPE
-#      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    #    configflags:
+    #      - -DCMAKE_C_COMPILER=/usr/bin/clang
+    #      - -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+    #      - -DPORT=WPE
+    #      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     build-packages:
       - build-essential
       - clang
@@ -112,14 +112,13 @@ parts:
       # clang -x c /dev/null -dM -E
       #cat Source/bmalloc/bmalloc/BPlatform.h
 
-      export CC=/usr/bin/clang 
-      export CXX=/usr/bin/clang++
+      # export CC=/usr/bin/clang 
+      # export CXX=/usr/bin/clang++
       cmake -DPORT=WPE -DCMAKE_BUILD_TYPE=Release -DENABLE_WEBASSEMBLY=OFF -GNinja
       ninja
       ninja install
     organize:
       usr/libexec/*: usr/bin/
-
 
   wpewebkit-launcher:
     after: [wpe-webkit]
