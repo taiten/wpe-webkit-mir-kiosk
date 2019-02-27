@@ -1,0 +1,2 @@
+#!/bin/sh -e
+mkdir -m u=rwx,g=,o= "$SNAP_COMMON/tmp"

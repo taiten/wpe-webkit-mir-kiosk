@@ -1,17 +1,4 @@
 #!/bin/sh
-# Westeros exports
-export XDG_RUNTIME_DIR=/tmp
-export WAYLAND_DISPLAY=wayland-0
-
-# The PREFIX env var can be useful when debugging athol/WPELauncher with gdbserver.
-if [ "$1" = "--loop" ];
-then
-	export HOME=/home/root
-	mkdir -p $HOME
-	while true;
-	do
-		cd $HOME && eval "$WPE_CONFIG $PREFIX WPELauncher \"$2\""
-	done
-else
-	cd $HOME && eval "$WPE_CONFIG $PREFIX WPELauncher \"$1\""
-fi
+export XDG_RUNTIME_DIR=$SNAP_COMMON/tmp
+export WAYLAND_DISPLAY=wpe
+$SNAP/usr/libexec/wpe-webkit-0.1/MiniBrowser "$1"

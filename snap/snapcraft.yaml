@@ -16,6 +16,11 @@ apps:
     command: launch-wpe "https://glancr.de"
     daemon: simple
     restart-condition: always
+    plugs: [wayland]
+
+#layout:
+#  /usr/share/X11:
+#    bind: $SNAP/usr/share/X11
 
 parts:
   libwpe:
@@ -77,26 +82,51 @@ parts:
     build-packages:
       - build-essential
       - clang
-      - ninja-build
-      - pkg-config
       - gperf
-      - ruby-dev
-      - python2.7
+      - ninja-build
       - libcairo2-dev
+      - libepoxy-dev
+      - libgbm-dev
+      - libgcrypt20-dev
+      - libgstreamer-plugins-base1.0-dev
       - libicu-dev
       - libjpeg8-dev
-      - libtasn1-6-dev
-      - libepoxy-dev
-      - libgcrypt20-dev
       - libsoup2.4-dev
+      - libsqlite3-dev
+      - libtasn1-6-dev
+      - libwebp-dev
       - libwoff-dev
       - libxml2-dev
-      - libsqlite3-dev
-      - zlib1g-dev
-      - libwebp-dev
       - libxslt1-dev
-      - libgstreamer-plugins-base1.0-dev
-    stage-packages: [wayland-protocols, weston]
+      - pkg-config
+      - python2.7
+      - ruby-dev
+      - wayland-protocols
+      - weston
+      - zlib1g-dev
+    stage-packages:
+      - libcairo2
+      - libepoxy0
+      - libgbm1
+      - libgl1
+      - libglx0
+      - libgcrypt20
+      - libgstreamer-gl1.0-0
+      - libgstreamer-plugins-base1.0-0
+      - libharfbuzz-icu0
+      - libicu60
+      - libjpeg8
+      - liborc-0.4-0
+      - libsoup2.4-1
+      - libsqlite3-0
+      - libtasn1-6
+      - libwebp6
+      - libwebpdemux2
+      - libwoff1
+      - libxml2
+      - libxslt1.1
+      - ruby
+      - zlib1g
     override-pull: |
       snapcraftctl pull
       # Add correct compiler macro for clang, see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
