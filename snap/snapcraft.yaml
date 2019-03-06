@@ -9,50 +9,41 @@ description: |
   store.
 
 grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 apps:
   wpewebkit:
-    command: launch-wpe "https://glancr.de"
+    command: launch-wpe "https://localhost/display"
     daemon: simple
     restart-condition: always
-    plugs: [wayland]
-
-#layout:
-#  /usr/share/X11:
-#    bind: $SNAP/usr/share/X11
+    plugs:
+      - wayland
 
 parts:
   libwpe:
-    plugin: dump
+    plugin: cmake
     source: https://wpewebkit.org/releases/libwpe-1.1.0.tar.xz
-    #configflags:
-    #  - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    configflags:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -GNinja
     build-packages:
       - build-essential
-      - cmake
       - libegl1
       - libegl1-mesa-dev
       - libglib2.0-dev
       - libxkbcommon-dev
     stage-packages:
       - libxkbcommon0
-    override-build: |
-      export CC=/usr/bin/clang 
-      export CXX=/usr/bin/clang++
-      cmake -DCMAKE_INSTALL_PREFIX:PATH=$SNAPCRAFT_PART_INSTALL/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -GNinja
-      ninja
-      ninja install
 
   wpebackend-fdo:
     after: [libwpe]
-    plugin: dump
+    plugin: cmake
+    configflags:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -GNinja
     source: https://wpewebkit.org/releases/wpebackend-fdo-1.1.0.tar.xz
-    #configflags:
-    #  - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     build-packages:
       - build-essential
-      - cmake
       - libegl1
       - libegl-mesa0
       - libegl1-mesa-dev
@@ -63,25 +54,18 @@ parts:
       - libegl1-mesa
       - libwayland-egl1
       - libxkbcommon0
-    override-build: |
-      export CC=/usr/bin/clang 
-      export CXX=/usr/bin/clang++
-      cmake -DCMAKE_INSTALL_PREFIX:PATH=$SNAPCRAFT_PART_INSTALL/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -GNinja
-      ninja
-      ninja install
 
   wpe-webkit:
     after: [wpebackend-fdo]
-    plugin: dump
     source: https://wpewebkit.org/releases/wpewebkit-2.22.4.tar.xz
-    #    configflags:
-    #      - -DCMAKE_C_COMPILER=/usr/bin/clang
-    #      - -DCMAKE_CXX_COMPILER=/usr/bin/clang++
-    #      - -DPORT=WPE
-    #      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    plugin: cmake
+    configflags:
+      - -DPORT=WPE
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DENABLE_MINIBROWSER=ON
+      - -GNinja
     build-packages:
       - build-essential
-      - clang
       - gperf
       - ninja-build
       - libcairo2-dev
@@ -99,7 +83,7 @@ parts:
       - libxml2-dev
       - libxslt1-dev
       - pkg-config
-      - python2.7
+      - python
       - ruby-dev
       - wayland-protocols
       - weston
@@ -125,33 +109,32 @@ parts:
       - libwoff1
       - libxml2
       - libxslt1.1
+      - python
       - ruby
       - zlib1g
     override-pull: |
       snapcraftctl pull
-      # Add correct compiler macro for clang, see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
+      # Add correct compiler macro for clang
+      # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
+      # Second insertions are source's line number + 1 (from prev insertion)
       sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-      sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h # LN+1 from prev insertion
+      sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
       sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
-      sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h # LN+1 from prev insertion
-
-      # disable webassembly
-      #sed -i '43iWEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_WEBASSEMBLY PRIVATE OFF)' Source/cmake/OptionsWPE.cmake
-      #cat Source/cmake/OptionsWPE.cmake
+      sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
     override-build: |
-      # clang errors out because some ruby gluecode cannot determine LP builder's endian type, use gcc default
+      # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
       # export CC=/usr/bin/clang 
       # export CXX=/usr/bin/clang++
-      if [ “$(arch)” = “arm” ]; then
-        ln -s /usr/bin/python2.7 /usr/bin/python
+
+      # ARM builders on LP don't link python2.7 as /usr/bin/python, but WK just calls 'python'
+      #if [ “$(arch)” = “arm” ]; then
+      #  ln -s /usr/bin/python2.7 /usr/bin/python
+        # Bail early if linking didn't work, or WebKit build will fail after ~ 2.5h
+      if [ -z $(which python) ]; then
+        exit 1
       fi
-      cmake -DPORT=WPE \
-            -DCMAKE_INSTALL_PREFIX:PATH=$SNAPCRAFT_PART_INSTALL/usr \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DENABLE_MINIBROWSER=ON \
-            -GNinja
-      ninja
-      ninja install
+      #fi
+      snapcraftctl build
 
   launch-wpe:
     plugin: dump

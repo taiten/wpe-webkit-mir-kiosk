@@ -1,4 +1,2 @@
 #!/bin/sh
-export XDG_RUNTIME_DIR=$SNAP_COMMON/tmp
-export WAYLAND_DISPLAY=wpe
-$SNAP/usr/libexec/wpe-webkit-0.1/MiniBrowser "$1"
+$SNAP/libexec/wpe-webkit-0.1/MiniBrowser "$1"
