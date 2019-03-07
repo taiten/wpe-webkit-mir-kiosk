@@ -10,8 +10,8 @@ grade: devel
 confinement: strict
 
 apps:
-  wpewebkit:
-    command: launch-wpe "https://localhost/display"
+  browser:
+    command: launch-wpe "https://wpewebkit.org"
     daemon: simple
     restart-condition: always
     plugs:
