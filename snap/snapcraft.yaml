@@ -1,9 +1,13 @@
 name: wpe-webkit-mir-kiosk
 base: core18
-version: "2.22.5" # wpe-webkit release version
+version: "2.22.5"  # wpe-webkit release version
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
-  'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project. From the website: “WPE WebKit allows embedders to create simple and performant systems based on Web platform technologies. It is designed with hardware acceleration in mind, leveraging common 3D graphics APIs for best performance.”
+  'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
+  From the website: “WPE WebKit allows embedders to create simple and performant
+  systems based on Web platform technologies. It is designed with hardware
+  acceleration in mind, leveraging common 3D graphics APIs for best
+  performance.”
   This snap runs the included MiniBrowser as a service in kiosk mode.'
 
 grade: devel
@@ -112,16 +116,16 @@ parts:
       - python
       - ruby
       - zlib1g
-    # override-pull: |
+  # override-pull: |
     # snapcraftctl pull
     # Add correct compiler macro for clang
     # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
     # Second insertions are source's line number + 1 (from prev insertion)
     # sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-    # sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+     # sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
     # sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
     # sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
-    # override-build: |
+  # override-build: |
     # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
     # export CC=/usr/bin/clang
     # export CXX=/usr/bin/clang++
