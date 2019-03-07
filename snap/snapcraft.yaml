@@ -1,19 +1,17 @@
-name: webkit-embedded # you probably want to 'snapcraft register <name>'
-base: core18 # the base snap is the execution environment for this snap
-version: "0.1" # just for humans, typically '1.2+git' or '1.3.2'
-summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+name: wpe-webkit-mir-kiosk
+base: core18
+version: "2.22.5" # wpe-webkit release version
+summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+  'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project. From the website: “WPE WebKit allows embedders to create simple and performant systems based on Web platform technologies. It is designed with hardware acceleration in mind, leveraging common 3D graphics APIs for best performance.”
+  This snap runs the included MiniBrowser as a service in kiosk mode.'
 
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: strict # use 'strict' once you have the right plugs and slots
+grade: devel
+confinement: strict
 
 apps:
-  wpewebkit:
-    command: launch-wpe "https://localhost/display"
+  browser:
+    command: launch-wpe "https://wpewebkit.org"
     daemon: simple
     restart-condition: always
     plugs:
@@ -22,6 +20,7 @@ apps:
 parts:
   libwpe:
     plugin: cmake
+    # latest development release
     source: https://wpewebkit.org/releases/libwpe-1.1.0.tar.xz
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
@@ -41,7 +40,8 @@ parts:
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
-    source: https://wpewebkit.org/releases/wpebackend-fdo-1.1.0.tar.xz
+    # latest development release
+    source: https://wpewebkit.org/releases/wpebackend-fdo-1.1.90.tar.xz
     build-packages:
       - build-essential
       - libegl1
@@ -57,7 +57,7 @@ parts:
 
   wpe-webkit:
     after: [wpebackend-fdo]
-    source: https://wpewebkit.org/releases/wpewebkit-2.22.4.tar.xz
+    source: https://wpewebkit.org/releases/wpewebkit-2.22.5.tar.xz
     plugin: cmake
     configflags:
       - -DPORT=WPE
@@ -112,29 +112,20 @@ parts:
       - python
       - ruby
       - zlib1g
-    override-pull: |
-      snapcraftctl pull
-      # Add correct compiler macro for clang
-      # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
-      # Second insertions are source's line number + 1 (from prev insertion)
-      sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-      sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-      sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
-      sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
-    override-build: |
-      # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
-      # export CC=/usr/bin/clang 
-      # export CXX=/usr/bin/clang++
-
-      # ARM builders on LP don't link python2.7 as /usr/bin/python, but WK just calls 'python'
-      #if [ “$(arch)” = “arm” ]; then
-      #  ln -s /usr/bin/python2.7 /usr/bin/python
-        # Bail early if linking didn't work, or WebKit build will fail after ~ 2.5h
-      if [ -z $(which python) ]; then
-        exit 1
-      fi
-      #fi
-      snapcraftctl build
+    # override-pull: |
+    # snapcraftctl pull
+    # Add correct compiler macro for clang
+    # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
+    # Second insertions are source's line number + 1 (from prev insertion)
+    # sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+    # sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+    # sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
+    # sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
+    # override-build: |
+    # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
+    # export CC=/usr/bin/clang
+    # export CXX=/usr/bin/clang++
+    # snapcraftctl build
 
   launch-wpe:
     plugin: dump
