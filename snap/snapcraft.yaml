@@ -121,19 +121,19 @@ parts:
       - ruby
       - zlib1g
   # override-pull: |
-    # snapcraftctl pull
-    # Add correct compiler macro for clang
-    # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
-    # Second insertions are source's line number + 1 (from prev insertion)
-    # sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-     # sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-    # sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
-    # sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
+  # snapcraftctl pull
+  # Add correct compiler macro for clang
+  # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
+  # Second insertions are source's line number + 1 (from prev insertion)
+  # sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+  # sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+  # sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
+  # sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
   # override-build: |
-    # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
-    # export CC=/usr/bin/clang
-    # export CXX=/usr/bin/clang++
-    # snapcraftctl build
+  # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
+  # export CC=/usr/bin/clang
+  # export CXX=/usr/bin/clang++
+  # snapcraftctl build
 
   launch-wpe:
     plugin: dump
