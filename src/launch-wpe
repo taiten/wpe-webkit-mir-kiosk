@@ -1,2 +1,10 @@
-#!/bin/sh
+#!/bin/sh -e
+
+# see https://tutorials.ubuntu.com/tutorial/wayland-kiosk#9
+export LIBGL_DRIVERS_PATH=$SNAP/usr/lib/<replaced by SNAPCRAFT_ARCH_TRIPLET>/dri
+
+# see https://forum.snapcraft.io/t/cross-post-chromium-mir-kiosk-in-portrait-mode-rotated-mir-kiosk-layout/8175/11
+mkdir -p -m 700 $XDG_RUNTIME_DIR
+ln -sf /run/user/0/wayland-0 $XDG_RUNTIME_DIR/
+
 $SNAP/libexec/wpe-webkit-0.1/MiniBrowser "$1"

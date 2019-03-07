@@ -139,5 +139,7 @@ parts:
   launch-wpe:
     plugin: dump
     source: src
+    override-pull:
+      sed -i "s/<replaced by SNAPCRAFT_ARCH_TRIPLET>/$SNAPCRAFT_ARCH_TRIPLET/" launch-wpe
     organize:
       launch-wpe: bin/
