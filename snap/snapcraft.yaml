@@ -70,7 +70,7 @@ parts:
     configflags:
       - -DPORT=WPE
       - -DCMAKE_BUILD_TYPE=Release
-      - -DENABLE_MINIBROWSER=ON
+      - -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -GNinja
     build-packages:
       - build-essential
@@ -134,9 +134,37 @@ parts:
   # export CC=/usr/bin/clang
   # export CXX=/usr/bin/clang++
   # snapcraftctl build
+  cog:
+    after: [wpe-webkit]
+    plugin: cmake
+    source: src/cog
+    # Build cog offline from checkout since LP builders lose internet access after 2h
+    # and wpe-webkit is required for cog build.
+    # source: https://github.com/Igalia/cog.git
+    # source-tag: v0.2.0
+    configflags:
+      - -DCMAKE_BUILD_TYPE=Debug # TODO: Change to release once thorougly tested
+      - -DCMAKE_INSTALL_PREFIX:PATH=/usr
+      - -GNinja
+    stage-packages:
+      - glib-networking-common
+      - glib-networking-services
+      - glib-networking # required for SSL/TLS support
+      - libgles2
+      # zeroconf/Bonjour name resolution, because why not
+      - libavahi-core7 
+      - libavahi-glib1
+      - libavahi-common3
+      - libavahi-client3
+    override-prime: |
+      snapcraftctl prime
+      glib-compile-schemas usr/share/glib-2.0/schemas/
+      # see https://stackoverflow.com/questions/28953925/glib-gio-error-no-gsettings-schemas-are-installed-on-the-system
+      update-ca-certificates
+      cp /etc/ssl/certs/ca-certificates.crt etc/ssl/certs/
 
   launch-wpe:
     plugin: dump
-    source: src
+    source: src/launcher
     organize:
       launch-wpe: bin/
