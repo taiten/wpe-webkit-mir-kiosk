@@ -13,6 +13,22 @@ description: |
 grade: devel
 confinement: strict
 
+# TODO: Check if these paths can be made relative with compiler flags
+layout:
+  # Relies on cmake install prefix $SNAP/usr, /libexec is not allowed
+  /usr/libexec/wpe-webkit-0.1:
+    bind: $SNAP/usr/libexec/wpe-webkit-0.1
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-0.1:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-0.1
+  /etc/fonts/conf.avail:
+    bind: $SNAP/etc/fonts/conf.avail
+  /etc/ssl/certs/ca-certificates.crt:
+    bind-file: $SNAP/etc/ssl/certs/ca-certificates.crt
+  /usr/share/fonts:
+    bind: $SNAP/usr/share/fonts
+  /usr/local/share/fonts: # wpe-webkit: Search ALL the fonts!
+    bind: $SNAP/usr/share/fonts
+
 apps:
   browser:
     command: launch-wpe "https://wpewebkit.org"
