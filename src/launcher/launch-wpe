@@ -4,4 +4,4 @@
 mkdir -p -m 700 $XDG_RUNTIME_DIR
 ln -sf /run/user/0/wayland-0 $XDG_RUNTIME_DIR/
 
-$SNAP/libexec/wpe-webkit-0.1/MiniBrowser "$1"
+"$SNAP"/usr/bin/cog -P fdo "$@"
