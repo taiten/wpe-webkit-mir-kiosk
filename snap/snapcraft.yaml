@@ -31,7 +31,9 @@ layout:
 
 apps:
   browser:
-    command: launch-wpe "https://wpewebkit.org"
+    # TODO: Make URL configurable, see chromium-mir-kiosk
+    # https://git.launchpad.net/~gerboland/+git/chromium-snap/tree/snap/hooks/configure?h=mir-kiosk
+    command: bin/snapcraft-preload $SNAP/bin/launch-wpe "https://wpewebkit.org"
     daemon: simple
     restart-condition: always
     plugs:
@@ -60,6 +62,15 @@ apps:
       FONTCONFIG_FILE: ${SNAP}/etc/fonts/fonts.conf
 
 parts:
+  # NOTICE: LP builders only get 2h of internet access, so all online sources need to be fetched before wpe-webkit is built
+  snapcraft-preload:
+      source: https://github.com/sergiusens/snapcraft-preload.git
+      plugin: cmake
+      build-packages:
+        - on amd64:
+          - gcc-multilib
+          - g++-multilib
+
   libwpe:
     plugin: cmake
     # latest stable release
@@ -129,6 +140,7 @@ parts:
       - python
       - ruby-dev
       - wayland-protocols
+      # TODO: Are these still required without the minibrowser?
       - weston
       - zlib1g-dev
     stage-packages:
@@ -169,6 +181,9 @@ parts:
   # export CC=/usr/bin/clang
   # export CXX=/usr/bin/clang++
   # snapcraftctl build
+    organize:
+      libexec: usr/
+
   cog:
     after: [wpe-webkit]
     plugin: cmake
