@@ -76,6 +76,7 @@ parts:
           - g++-multilib
 
   libwpe:
+    after: [snapcraft-preload]
     plugin: cmake
     # latest stable release
     source: https://wpewebkit.org/releases/libwpe-1.0.0.tar.xz
@@ -201,12 +202,12 @@ parts:
   cog:
     after: [wpe-webkit]
     plugin: cmake
-    source: src/cog
     # Build cog offline from checkout since LP builders lose
     # internet access after 2h and wpe-webkit is required
     # for cog build.
     # source: https://github.com/Igalia/cog.git
     # source-tag: v0.2.0
+    source: src/cog
     configflags:
       # TODO: Change to release once thorougly tested
       - -DCMAKE_BUILD_TYPE=Debug
@@ -218,7 +219,7 @@ parts:
       snapcraftctl prime
       glib-compile-schemas usr/share/glib-2.0/schemas/
       # see https://stackoverflow.com/questions/28953925/glib-gio-error-no-gsettings-schemas-are-installed-on-the-system
-      update-ca-certificates
+      update-ca-certificates # creates ca-certificates.crt on build host
       cp /etc/ssl/certs/ca-certificates.crt etc/ssl/certs/
 
   launch-wpe:
