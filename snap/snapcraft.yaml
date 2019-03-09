@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
 base: core18
-version: "2.22.5" # wpe-webkit release version
+version: "2.22.5"  # wpe-webkit release version
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
@@ -26,7 +26,7 @@ layout:
     bind-file: $SNAP/etc/ssl/certs/ca-certificates.crt
   /usr/share/fonts:
     bind: $SNAP/usr/share/fonts
-  /usr/local/share/fonts: # wpe-webkit: Search ALL the fonts!
+  /usr/local/share/fonts:  # wpe-webkit: Search ALL the fonts!
     bind: $SNAP/usr/share/fonts
 
 apps:
@@ -41,7 +41,8 @@ apps:
       - opengl
       - network
       - upower-observe
-      # not auto-connected, show up as AppArmor denials but basic browsing seems to work fine without
+      # not auto-connected, show up as AppArmor denials but
+      # basic browsing seems to work fine without
       - network-manager
       - avahi-observe
       - hostname-control
@@ -50,8 +51,10 @@ apps:
     environment:
       LIBGL_DRIVERS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri
       # cf. https://tutorials.ubuntu.com/tutorial/wayland-kiosk#9
-      # Liberally adapted from https://github.com/MirServer/mir-kiosk-apps/blob/master/snap/snapcraft.yaml
-      # Some might not be needed, but omitting some would either crash the WPE renderer process or cause AppArmor denials
+      # Liberally adapted from
+      # https://github.com/MirServer/mir-kiosk-apps/blob/master/snap/snapcraft.yaml
+      # Some might not be needed, but omitting some would either crash
+      # the WPE renderer process or cause AppArmor denials
       __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
       XKB_CONFIG_ROOT: ${SNAP}/usr/share/X11/xkb
       XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:$XDG_CONFIG_DIRS
@@ -62,12 +65,13 @@ apps:
       FONTCONFIG_FILE: ${SNAP}/etc/fonts/fonts.conf
 
 parts:
-  # NOTICE: LP builders only get 2h of internet access, so all online sources need to be fetched before wpe-webkit is built
+  # NOTICE: LP builders only get 2h of internet access,
+  # so all online sources need to be fetched before wpe-webkit is built
   snapcraft-preload:
-      source: https://github.com/sergiusens/snapcraft-preload.git
-      plugin: cmake
-      build-packages:
-        - on amd64:
+    source: https://github.com/sergiusens/snapcraft-preload.git
+    plugin: cmake
+    build-packages:
+      - on amd64:
           - gcc-multilib
           - g++-multilib
 
@@ -188,12 +192,14 @@ parts:
     after: [wpe-webkit]
     plugin: cmake
     source: src/cog
-    # Build cog offline from checkout since LP builders lose internet access after 2h
-    # and wpe-webkit is required for cog build.
+    # Build cog offline from checkout since LP builders lose
+    # internet access after 2h and wpe-webkit is required
+    # for cog build.
     # source: https://github.com/Igalia/cog.git
     # source-tag: v0.2.0
     configflags:
-      - -DCMAKE_BUILD_TYPE=Debug # TODO: Change to release once thorougly tested
+      # TODO: Change to release once thorougly tested
+      - -DCMAKE_BUILD_TYPE=Debug
       - -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -GNinja
     stage-packages:
