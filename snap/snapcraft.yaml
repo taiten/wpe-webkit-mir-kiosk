@@ -95,7 +95,9 @@ parts:
       - ibus-gtk3
       - libibus-1.0-5
       - fcitx-frontend-gtk3
+
   snapcraft-preload:
+    after: [desktop-gtk3]
     source: https://github.com/sergiusens/snapcraft-preload.git
     plugin: cmake
     build-packages:
