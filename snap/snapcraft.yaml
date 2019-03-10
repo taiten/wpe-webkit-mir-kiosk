@@ -168,6 +168,7 @@ parts:
       - libwebpdemux2
       - libwoff1
       - libxml2
+      - libxml2-utils
       - libxslt1.1
       - python
       - ruby
