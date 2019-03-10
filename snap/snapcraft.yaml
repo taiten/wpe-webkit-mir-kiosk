@@ -173,6 +173,17 @@ parts:
       - python
       - ruby
       - zlib1g
+      # from https://github.com/Igalia/meta-webkit/blob/e0d5fb3c66b910984464f1f22567a0cd618331ae/recipes-browser/wpewebkit/wpewebkit.inc#L87
+      - gstreamer1.0-gl
+      - gstreamer1.0-plugins-base
+      # FIXME: Pull in only packages referenced in Yocto image to avoid bloat
+      - gstreamer1.0-plugins-good
+      # - gstreamer1.0-plugins-good-audiofx
+      # - gstreamer1.0-plugins-good-audioparsers
+      # - gstreamer1.0-plugins-good-autodetect
+      # - gstreamer1.0-plugins-good-avi
+      # - gstreamer1.0-plugins-good-deinterlace
+      # - gstreamer1.0-plugins-good-interleave
       # Runtime requirements for cog browser
       - glib-networking-common
       - glib-networking-services
