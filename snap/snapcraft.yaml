@@ -182,6 +182,11 @@ parts:
       - libavahi-glib1
       - libavahi-common3
       - libavahi-client3
+      # ??? Required to stop crashes on Ubuntu Core? Really just guessing here, no sensible dmesg output
+      - libgl1-mesa-dri
+      - mesa-va-drivers
+      - libgles2-mesa
+      - libglib2.0-bin
     # override-pull: |
     # snapcraftctl pull
     # Add correct compiler macro for clang
