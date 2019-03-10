@@ -58,7 +58,7 @@ apps:
       __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
       XKB_CONFIG_ROOT: ${SNAP}/usr/share/X11/xkb
       XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:$XDG_CONFIG_DIRS
-      XDG_DATA_DIRS: ${SNAP}/etc/xdg:${SNAP}/usr/share:$XDG_DATA_DIRS
+      XDG_DATA_DIRS: ${SNAP}/usr/share:$XDG_DATA_DIRS
       XDG_DATA_HOME: ${SNAP}/usr/share
       XDG_CACHE_HOME: $SNAP_COMMON/cache
       FONTCONFIG_PATH: ${SNAP}/etc/fonts/conf.d
