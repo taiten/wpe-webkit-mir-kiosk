@@ -33,7 +33,7 @@ apps:
   browser:
     # TODO: Make URL configurable, see chromium-mir-kiosk
     # https://git.launchpad.net/~gerboland/+git/chromium-snap/tree/snap/hooks/configure?h=mir-kiosk
-    command: bin/snapcraft-preload $SNAP/bin/launch-wpe "https://wpewebkit.org"
+    command: desktop-launch bin/snapcraft-preload $SNAP/bin/launch-wpe "https://wpewebkit.org"
     daemon: simple
     restart-condition: always
     plugs:
@@ -67,6 +67,34 @@ apps:
 parts:
   # NOTICE: LP builders only get 2h of internet access,
   # so all online sources need to be fetched before wpe-webkit is built
+  desktop-gtk3:
+    build-packages:
+      - build-essential
+      - libgtk-3-dev
+    make-parameters:
+      - FLAVOR=gtk3
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libgtk-3-0
+      - libgdk-pixbuf2.0-0
+      - libglib2.0-bin
+      - libgtk-3-bin
+      - unity-gtk3-module
+      - libappindicator3-1
+      - locales-all
+      - xdg-user-dirs
+      - ibus-gtk3
+      - libibus-1.0-5
+      - fcitx-frontend-gtk3
   snapcraft-preload:
     source: https://github.com/sergiusens/snapcraft-preload.git
     plugin: cmake
