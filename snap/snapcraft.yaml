@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
 base: core18
-version: "2.22.5"  # wpe-webkit release version
+version: "2.22.5" # wpe-webkit release version
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
@@ -26,7 +26,7 @@ layout:
     bind-file: $SNAP/etc/ssl/certs/ca-certificates.crt
   /usr/share/fonts:
     bind: $SNAP/usr/share/fonts
-  /usr/local/share/fonts:  # wpe-webkit: Search ALL the fonts!
+  /usr/local/share/fonts: # wpe-webkit: Search ALL the fonts!
     bind: $SNAP/usr/share/fonts
 
 apps:
@@ -120,7 +120,7 @@ parts:
     plugin: cmake
     configflags:
       - -DPORT=WPE
-      - -DCMAKE_BUILD_TYPE=Debug
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -GNinja
     build-packages:
@@ -175,7 +175,7 @@ parts:
       # Runtime requirements for cog browser
       - glib-networking-common
       - glib-networking-services
-      - glib-networking  # required for SSL/TLS support
+      - glib-networking # required for SSL/TLS support
       - libgles2
       # zeroconf/Bonjour name resolution, because why not
       - libavahi-core7
