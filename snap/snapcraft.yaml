@@ -81,7 +81,7 @@ parts:
     # latest stable release
     source: https://wpewebkit.org/releases/libwpe-1.0.0.tar.xz
     configflags:
-      - -DCMAKE_BUILD_TYPE=Debug
+      - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
     build-packages:
       - build-essential
@@ -96,7 +96,7 @@ parts:
     after: [libwpe]
     plugin: cmake
     configflags:
-      - -DCMAKE_BUILD_TYPE=Debug
+      - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
     # latest stable release
     source: https://wpewebkit.org/releases/wpebackend-fdo-1.0.1.tar.xz
@@ -120,7 +120,7 @@ parts:
     plugin: cmake
     configflags:
       - -DPORT=WPE
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -GNinja
     build-packages:
