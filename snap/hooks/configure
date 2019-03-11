@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+# Adapted from https://git.launchpad.net/~gerboland/+git/chromium-snap/tree/snap/hooks/configure?h=mir-kiosk
+
+validate_url() {
+    url=$1
+    regex='^http(s)?://*'
+    if [[ ! $url =~ $regex ]]; then
+        echo "Error: URL \"${url}\" needs to start with http:// or https://"
+        exit 1
+    fi
+}
+
+validate_boolean() {
+    if [[ ! $1 =~ (true|false) ]]; then
+        echo "Error: \"$2\" accepts only true/false. Got \"$1\""
+        exit 1;
+    fi
+}
+
+validate_url     "$(snapctl get url)"
+validate_boolean "$(snapctl get devmode)"
+
+snapctl restart "$SNAP_NAME"

@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+# Initialize configuration with default values
+snapctl set \
+    url="https://wpewebkit.org" \
+    devmode="false"
