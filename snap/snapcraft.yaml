@@ -37,7 +37,7 @@ apps:
     plugs:
       # Auto-connected
       - wayland
-      - opengl # TODO: Required?
+      - opengl # required for libEGL to work
       - network
       - network-bind # Remote inspector
       - upower-observe
@@ -71,6 +71,7 @@ parts:
   # Uses after chaining to ensure everything is pulled before the long build.
   desktop-gtk3:
     # TODO: Check if one of the slimmer desktop helpers works as well
+    # https://aur.archlinux.org/packages/wpebackend-fdo/ => packaged by aperezdc, try to map to Ubuntu repos
     build-packages:
       - build-essential
       - libgtk-3-dev
@@ -223,6 +224,7 @@ parts:
       - glib-networking-services
       - libgles2
       - libslang2 # dep for gstreamer ASCII art modules ¯\_(ツ)_/¯
+      - libgpm2 # mouse
       # TODO: Fix zeroconf/Bonjour name resolution, these don't seem to suffice
       - libavahi-core7
       - libavahi-glib1
