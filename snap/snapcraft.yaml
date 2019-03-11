@@ -219,6 +219,7 @@ parts:
       - glib-networking-services
       - glib-networking # required for SSL/TLS support
       - libgles2
+      - libslang2 # dep for gstreamer ASCII art modules ¯\_(ツ)_/¯
       # zeroconf/Bonjour name resolution, because why not
       - libavahi-core7
       - libavahi-glib1
