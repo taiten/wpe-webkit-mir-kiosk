@@ -33,7 +33,7 @@ apps:
   browser:
     # TODO: Make URL configurable, see chromium-mir-kiosk
     # https://git.launchpad.net/~gerboland/+git/chromium-snap/tree/snap/hooks/configure?h=mir-kiosk
-    command: desktop-launch bin/snapcraft-preload $SNAP/bin/launch-wpe "https://wpewebkit.org"
+    command: desktop-launch $SNAP/bin/snapcraft-preload $SNAP/bin/launch-wpe "https://wpewebkit.org"
     daemon: simple
     restart-condition: always
     plugs:
