@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 # see https://forum.snapcraft.io/t/cross-post-chromium-mir-kiosk-in-portrait-mode-rotated-mir-kiosk-layout/8175/11
 mkdir -p -m 700 $XDG_RUNTIME_DIR
