@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
 base: core18
-version: "2.22.5" # wpe-webkit release version
+version: "2.22.5" # wpe-webkit release version. TODO: use adopt-info
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
@@ -31,20 +31,19 @@ layout:
 
 apps:
   browser:
-    # TODO: Make URL configurable, see chromium-mir-kiosk
-    # https://git.launchpad.net/~gerboland/+git/chromium-snap/tree/snap/hooks/configure?h=mir-kiosk
     command: desktop-launch $SNAP/bin/snapcraft-preload $SNAP/bin/launch-wpe
     daemon: simple
     restart-condition: always
     plugs:
+      # Auto-connected
       - wayland
-      - opengl
+      - opengl # TODO: Required?
       - network
+      - network-bind # Remote inspector
       - upower-observe
-      # not auto-connected, show up as AppArmor denials but
+      # Manually connected, show up as AppArmor denials but
       # basic browsing seems to work fine without
       - avahi-observe # zeroconf name resolution
-      - network-bind # Remote inspector
       # snappy-debug suggestions
       - network-manager
       - hostname-control
@@ -68,8 +67,10 @@ apps:
 
 parts:
   # NOTICE: LP builders only get 2h of internet access,
-  # so all online sources need to be fetched before wpe-webkit is built
+  # so all online sources need to be fetched before wpe-webkit is built.
+  # Uses after chaining to ensure everything is pulled before the long build.
   desktop-gtk3:
+    # TODO: Check if one of the slimmer desktop helpers works as well
     build-packages:
       - build-essential
       - libgtk-3-dev
@@ -217,17 +218,17 @@ parts:
       # - gstreamer1.0-plugins-good-deinterlace
       # - gstreamer1.0-plugins-good-interleave
       # Runtime requirements for cog browser
+      - glib-networking # required for SSL/TLS support
       - glib-networking-common
       - glib-networking-services
-      - glib-networking # required for SSL/TLS support
       - libgles2
       - libslang2 # dep for gstreamer ASCII art modules ¯\_(ツ)_/¯
-      # zeroconf/Bonjour name resolution, because why not
+      # TODO: Fix zeroconf/Bonjour name resolution, these don't seem to suffice
       - libavahi-core7
       - libavahi-glib1
       - libavahi-common3
       - libavahi-client3
-      # ??? Required to stop crashes on Ubuntu Core? Really just guessing here, no sensible dmesg output
+      # FIXME: Really required on Ubuntu Core?
       - libgl1-mesa-dri
       - mesa-va-drivers
       - libgles2-mesa
@@ -258,8 +259,8 @@ parts:
     # source: https://github.com/Igalia/cog.git
     # source-tag: v0.2.0
     source: src/cog
-    configflags:
       # TODO: Change to release once thorougly tested
+    configflags:
       - -DCMAKE_BUILD_TYPE=Debug
       - -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -GNinja
@@ -269,7 +270,8 @@ parts:
       snapcraftctl prime
       glib-compile-schemas usr/share/glib-2.0/schemas/
       # see https://stackoverflow.com/questions/28953925/glib-gio-error-no-gsettings-schemas-are-installed-on-the-system
-      update-ca-certificates # creates ca-certificates.crt on build host
+      # creates ca-certificates.crt on build host and copies to snap prime dir
+      update-ca-certificates
       cp /etc/ssl/certs/ca-certificates.crt etc/ssl/certs/
 
   launch-wpe:
