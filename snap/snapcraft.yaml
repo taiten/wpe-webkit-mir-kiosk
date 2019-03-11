@@ -43,8 +43,10 @@ apps:
       - upower-observe
       # not auto-connected, show up as AppArmor denials but
       # basic browsing seems to work fine without
+      - avahi-observe # zeroconf name resolution
+      - network-bind # Remote inspector
+      # snappy-debug suggestions
       - network-manager
-      - avahi-observe
       - hostname-control
       - process-control
 
