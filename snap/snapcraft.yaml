@@ -259,9 +259,8 @@ parts:
     # source: https://github.com/Igalia/cog.git
     # source-tag: v0.2.0
     source: src/cog
-      # TODO: Change to release once thorougly tested
     configflags:
-      - -DCMAKE_BUILD_TYPE=Debug
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -GNinja
     # stage-packages required by cog at runtime are added in wpe-webkit part
