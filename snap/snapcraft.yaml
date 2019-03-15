@@ -10,7 +10,7 @@ description: |
   performance.”
   This snap runs the included MiniBrowser as a service in kiosk mode.'
 
-grade: devel
+grade: stable
 confinement: strict
 
 # TODO: Check if these paths can be made relative with compiler flags
