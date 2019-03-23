@@ -8,7 +8,7 @@ url="$(snapctl get url)"
 devmode="$(snapctl get devmode)"
 
 # Toggle remote debugging
-if [[ $devmode == "false" ]]; then
+if [[ $devmode == true ]]; then
   export WEBKIT_INSPECTOR_SERVER=0.0.0.0:8080
 fi
 
