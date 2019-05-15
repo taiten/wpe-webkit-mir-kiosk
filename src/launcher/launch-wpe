@@ -6,10 +6,17 @@ ln -sf /run/user/0/wayland-0 "$XDG_RUNTIME_DIR"/
 
 url="$(snapctl get url)"
 devmode="$(snapctl get devmode)"
+debug="$(snapctl get debug)"
 
 # Toggle remote debugging
 if [[ $devmode == true ]]; then
   export WEBKIT_INSPECTOR_SERVER=0.0.0.0:8080
 fi
 
-"$SNAP"/usr/bin/cog -P fdo "$url"
+if [[ $debug == true ]]; then
+  export G_MESSAGES_DEBUG=all
+  export LIBGL_DEBUG=verbose
+  export WAYLAND_DEBUG=1
+fi
+
+"$SNAP"/usr/bin/cog -P fdo --enable-mediasource=1 "$url"
