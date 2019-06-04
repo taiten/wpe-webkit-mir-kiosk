@@ -1037,6 +1037,16 @@ on_export_egl_image(void *data, EGLImageKHR image)
 {
     wpe_view_data.image = image;
 
+    if (win_data.is_fullscreen) {
+      struct wl_region *region;
+      region = wl_compositor_create_region (wl_data.compositor);
+      wl_region_add (region, 0, 0, win_data.width, win_data.height);
+      wl_surface_set_opaque_region (win_data.wl_surface, region);
+      wl_region_destroy (region);
+    } else {
+      wl_surface_set_opaque_region (win_data.wl_surface, NULL);
+    }
+
     static PFNEGLCREATEWAYLANDBUFFERFROMIMAGEWL
         eglCreateWaylandBufferFromImageWL;
     if (eglCreateWaylandBufferFromImageWL == NULL) {
@@ -1082,10 +1092,6 @@ init_wayland (GError **error)
     g_assert (wl_data.xdg_shell != NULL ||
               wl_data.shell != NULL ||
               wl_data.fshell != NULL);
-
-    wl_data.event_src =
-        setup_wayland_event_source (g_main_context_get_thread_default (),
-                                    wl_data.display);
 
     return TRUE;
 }
@@ -1365,7 +1371,7 @@ cog_platform_setup (CogPlatform *platform,
     g_assert_nonnull (platform);
     g_return_val_if_fail (COG_IS_SHELL (shell), FALSE);
 
-    if (!wpe_loader_init ("libWPEBackend-fdo-0.1.so")) {
+    if (!wpe_loader_init ("libWPEBackend-fdo-1.0.so")) {
         g_set_error_literal (error,
                              COG_PLATFORM_WPE_ERROR,
                              COG_PLATFORM_WPE_ERROR_INIT,
@@ -1455,6 +1461,12 @@ cog_platform_get_view_backend (CogPlatform   *platform,
                        (GDestroyNotify) wpe_view_backend_exportable_fdo_destroy,
                                      wpe_host_data.exportable);
     g_assert_nonnull (wk_view_backend);
+
+    if (!wl_data.event_src) {
+        wl_data.event_src =
+            setup_wayland_event_source (g_main_context_get_thread_default (),
+                                        wl_data.display);
+    }
 
     return wk_view_backend;
 }

@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
 base: core18
-version: "2.22.5" # wpe-webkit release version. TODO: use adopt-info
+version: "2.24.2" # wpe-webkit release version. TODO: use adopt-info
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
@@ -92,7 +92,7 @@ parts:
     after: [snapcraft-preload]
     plugin: cmake
     # latest stable release
-    source: https://wpewebkit.org/releases/libwpe-1.0.0.tar.xz
+    source: https://wpewebkit.org/releases/libwpe-1.2.0.tar.xz
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
@@ -112,7 +112,7 @@ parts:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
     # latest stable release
-    source: https://wpewebkit.org/releases/wpebackend-fdo-1.0.1.tar.xz
+    source: https://wpewebkit.org/releases/wpebackend-fdo-1.2.0.tar.xz
     build-packages:
       - build-essential
       - libegl1
@@ -129,7 +129,7 @@ parts:
   wpe-webkit:
     after: [wpebackend-fdo]
     # latest stable release
-    source: https://wpewebkit.org/releases/wpewebkit-2.22.5.tar.xz
+    source: https://wpewebkit.org/releases/wpewebkit-2.24.2.tar.xz
     plugin: cmake
     configflags:
       - -DPORT=WPE
@@ -147,6 +147,7 @@ parts:
       - libgstreamer-plugins-base1.0-dev
       - libicu-dev
       - libjpeg8-dev
+      - libopenjp2-7-dev
       - libsoup2.4-dev
       - libsqlite3-dev
       - libtasn1-6-dev
@@ -175,6 +176,7 @@ parts:
       - libharfbuzz-icu0
       - libicu60
       - libjpeg8
+      - libopenjp2-7
       - liborc-0.4-0
       - libsoup2.4-1
       - libsqlite3-0
@@ -235,7 +237,7 @@ parts:
     # internet access after 2h and wpe-webkit is required
     # for cog build.
     # source: https://github.com/Igalia/cog.git
-    # source-tag: v0.2.0
+    # source-tag: v0.3.0
     source: src/cog
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
