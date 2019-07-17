@@ -17,7 +17,7 @@ confinement: strict
 layout:
   # Relies on cmake install prefix $SNAP/usr, /libexec is not allowed
   /usr/libexec/wpe-webkit-1.0:
-    bind: $SNAP/usr/libexec/wpe-webkit-1.0
+    bind: $SNAP/usr/wpe-webkit-1.0
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-1.0:
     bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-1.0
   /etc/fonts/conf.avail:
