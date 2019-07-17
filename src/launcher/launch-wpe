@@ -19,4 +19,4 @@ if [[ $debug == true ]]; then
   export WAYLAND_DEBUG=1
 fi
 
-"$SNAP"/usr/bin/cog -P fdo --bg-color=black --enable-mediasource=1 "$url"
+"$SNAP"/bin/cog -P fdo --bg-color=black --enable-mediasource=1 "$url"
