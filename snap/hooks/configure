@@ -20,5 +20,7 @@ validate_boolean() {
 
 validate_url "$(snapctl get url)"
 validate_boolean "$(snapctl get devmode)"
+validate_boolean "$(snapctl get debug)"
+validate_boolean "$(snapctl get error-to-console)"
 
 snapctl restart "$SNAP_NAME"

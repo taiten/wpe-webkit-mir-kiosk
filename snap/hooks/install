@@ -3,4 +3,6 @@
 # Initialize configuration with default values
 snapctl set \
     url="https://wpewebkit.org" \
-    devmode="false"
+    devmode="false" \
+    debug="false" \
+    error-to-console="false"

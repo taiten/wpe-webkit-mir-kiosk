@@ -7,6 +7,7 @@ ln -sf /run/user/0/wayland-0 "$XDG_RUNTIME_DIR"/
 url="$(snapctl get url)"
 devmode="$(snapctl get devmode)"
 debug="$(snapctl get debug)"
+error_to_console="$(snapctl get error-to-console)"
 
 # Toggle remote debugging
 if [[ $devmode == true ]]; then
@@ -19,4 +20,9 @@ if [[ $debug == true ]]; then
   export WAYLAND_DEBUG=1
 fi
 
-"$SNAP"/bin/cog -P fdo --bg-color=black --enable-mediasource=1 "$url"
+"$SNAP"/bin/cog \
+  -P fdo \
+  --bg-color=black \
+  --enable-mediasource=1 \
+  --enable-write-console-messages-to-stdout="$error_to_console"
+"$url"
