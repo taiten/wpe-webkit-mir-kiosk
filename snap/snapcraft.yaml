@@ -95,7 +95,7 @@ parts:
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
-      - -DWEB_ENGINE_INCLUDE_DIRS=/root/parts/cog/install/include/wpe-webkit-1.0;/root/parts/cog/install/include/wpe-fdo-1.0;/root/parts/cog/install/include/wpe-1.0
+      - -DWEB_ENGINE_INCLUDE_DIRS=/root/parts/cog/install/usr/include/wpe-webkit-1.0;/root/parts/cog/install/usr/include/wpe-fdo-1.0;/root/parts/cog/install/usr/include/wpe-1.0
     build-packages:
       - ninja-build
       - libsoup2.4-dev
