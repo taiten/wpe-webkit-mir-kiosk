@@ -87,20 +87,21 @@ parts:
   cog:
     plugin: cmake
     source: https://github.com/Igalia/cog.git
-    source-tag: v0.3.0
+    source-tag: v0.3.1
     build-snaps: [wpe-webkit-libs/latest/candidate]
     stage-snaps: [wpe-webkit-libs/latest/candidate]
-    # source: src/cog
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
-      #- -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -GNinja
+      - -DWEB_ENGINE_INCLUDE_DIRS=/root/parts/cog/install/include/wpe-webkit-1.0;/root/parts/cog/install/include/wpe-fdo-1.0;/root/parts/cog/install/include/wpe-1.0
     build-packages:
       - ninja-build
       - libsoup2.4-dev
       - libxkbcommon-dev
       - libwayland-dev
       - libegl1-mesa-dev
+      - wayland-protocols
+      - libwayland-bin
     stage-packages: 
       # Runtime requirements for cog browser
       - glib-networking # required for SSL/TLS support
