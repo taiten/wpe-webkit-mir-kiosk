@@ -16,10 +16,10 @@ confinement: strict
 # TODO: Check if these paths can be made relative with compiler flags
 layout:
   # Relies on cmake install prefix $SNAP/usr, /libexec is not allowed
-  /usr/libexec/wpe-webkit-0.1:
-    bind: $SNAP/usr/libexec/wpe-webkit-0.1
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-0.1:
-    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-0.1
+  /usr/libexec/wpe-webkit-1.0:
+    bind: $SNAP/usr/wpe-webkit-1.0
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-1.0:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-1.0
   /etc/fonts/conf.avail:
     bind: $SNAP/etc/fonts/conf.avail
   /etc/ssl/certs/ca-certificates.crt:
@@ -67,9 +67,6 @@ apps:
       FONTCONFIG_FILE: ${SNAP}/etc/fonts/fonts.conf
 
 parts:
-  # NOTICE: LP builders only get 2h of internet access,
-  # so all online sources need to be fetched before wpe-webkit is built.
-  # Uses after chaining to ensure everything is pulled before the long build.
   glib-only:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-subdir: glib-only
@@ -80,122 +77,34 @@ parts:
       - libglib2.0-bin
 
   snapcraft-preload:
-    after: [glib-only]
     source: https://github.com/sergiusens/snapcraft-preload.git
     plugin: cmake
     build-packages:
       - on amd64:
           - gcc-multilib
           - g++-multilib
-
-  libwpe:
-    after: [snapcraft-preload]
-    plugin: cmake
-    # latest stable release
-    source: https://wpewebkit.org/releases/libwpe-1.2.0.tar.xz
-    configflags:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -GNinja
-    build-packages:
-      - build-essential
-      - libegl1
-      - libegl1-mesa-dev
-      - libglib2.0-dev
-      - libxkbcommon-dev
     stage-packages:
-      - libxkbcommon0
+      - libstdc++6
 
-  wpebackend-fdo:
-    after: [libwpe]
+  cog:
     plugin: cmake
+    source: https://github.com/Igalia/cog.git
+    source-tag: v0.3.1
+    build-snaps: [wpe-webkit-libs/latest/candidate]
+    stage-snaps: [wpe-webkit-libs/latest/candidate]
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
-    # latest stable release
-    source: https://wpewebkit.org/releases/wpebackend-fdo-1.2.0.tar.xz
+      - -DWEB_ENGINE_INCLUDE_DIRS=/root/parts/cog/install/usr/include/wpe-webkit-1.0;/root/parts/cog/install/usr/include/wpe-fdo-1.0;/root/parts/cog/install/usr/include/wpe-1.0
     build-packages:
-      - build-essential
-      - libegl1
-      - libegl-mesa0
-      - libegl1-mesa-dev
-      - libwayland-egl1
-      - libglib2.0-dev
-      - libxkbcommon-dev
-    stage-packages:
-      - libegl1-mesa
-      - libwayland-egl1
-      - libxkbcommon0
-
-  wpe-webkit:
-    after: [wpebackend-fdo]
-    # latest stable release
-    source: https://wpewebkit.org/releases/wpewebkit-2.24.2.tar.xz
-    plugin: cmake
-    configflags:
-      - -DPORT=WPE
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_INSTALL_PREFIX:PATH=/usr
-      - -GNinja
-    build-packages:
-      - build-essential
-      - gperf
       - ninja-build
-      - libcairo2-dev
-      - libepoxy-dev
-      - libgbm-dev
-      - libgcrypt20-dev
-      - libgstreamer-plugins-base1.0-dev
-      - libicu-dev
-      - libjpeg8-dev
-      - libopenjp2-7-dev
       - libsoup2.4-dev
-      - libsqlite3-dev
-      - libtasn1-6-dev
-      - libwebp-dev
-      - libwoff-dev
-      - libxml2-dev
-      - libxslt1-dev
-      - pkg-config
-      - python
-      - ruby-dev
+      - libxkbcommon-dev
+      - libwayland-dev
+      - libegl1-mesa-dev
       - wayland-protocols
-      # TODO: Are these still required without the minibrowser?
-      - weston
-      - zlib1g-dev
-    stage-packages:
-      - libwayland-client0
-      - libwayland-server0
-      - libcairo2
-      - libepoxy0
-      - libgbm1
-      - libgl1
-      - libglx0
-      - libgcrypt20
-      - libgstreamer-gl1.0-0
-      - libgstreamer-plugins-base1.0-0
-      - libharfbuzz-icu0
-      - libicu60
-      - libjpeg8
-      - libopenjp2-7
-      - liborc-0.4-0
-      - libsoup2.4-1
-      - libsqlite3-0
-      - libtasn1-6
-      - libwebp6
-      - libwebpdemux2
-      - libwoff1
-      - libxml2
-      - libxml2-utils
-      - libxslt1.1
-      - python
-      - ruby
-      - zlib1g
-      # from https://github.com/Igalia/meta-webkit/blob/e0d5fb3c66b910984464f1f22567a0cd618331ae/recipes-browser/wpewebkit/wpewebkit.inc#L87
-      - gstreamer1.0-gl
-      - gstreamer1.0-libav
-      - gstreamer1.0-plugins-base
-      # FIXME: Pull in only packages referenced in Yocto image to avoid bloat
-      - gstreamer1.0-plugins-good
+      - libwayland-bin
+    stage-packages: 
       # Runtime requirements for cog browser
       - glib-networking # required for SSL/TLS support
       - glib-networking-common
@@ -213,38 +122,6 @@ parts:
       - mesa-va-drivers
       - libgles2-mesa
       - libglib2.0-bin
-    # override-pull: |
-    # snapcraftctl pull
-    # Add correct compiler macro for clang
-    # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
-    # Second insertions are source's line number + 1 (from prev insertion)
-    # sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-    # sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
-    # sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
-    # sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
-    # override-build: |
-    # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
-    # export CC=/usr/bin/clang
-    # export CXX=/usr/bin/clang++
-    # snapcraftctl build
-    organize:
-      libexec: usr/
-
-  cog:
-    after: [wpe-webkit]
-    plugin: cmake
-    # Build cog offline from checkout since LP builders lose
-    # internet access after 2h and wpe-webkit is required
-    # for cog build.
-    # source: https://github.com/Igalia/cog.git
-    # source-tag: v0.3.0
-    source: src/cog
-    configflags:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_INSTALL_PREFIX:PATH=/usr
-      - -GNinja
-    # stage-packages required by cog at runtime are added in wpe-webkit part
-    # due to LP proxy restrictions
     override-prime: |
       snapcraftctl prime
       glib-compile-schemas usr/share/glib-2.0/schemas/
