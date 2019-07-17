@@ -14,11 +14,11 @@ validate_url() {
 validate_boolean() {
     if [[ ! $1 =~ (true|false) ]]; then
         echo "Error: \"$2\" accepts only true/false. Got \"$1\""
-        exit 1;
+        exit 1
     fi
 }
 
-validate_url     "$(snapctl get url)"
+validate_url "$(snapctl get url)"
 validate_boolean "$(snapctl get devmode)"
 
 snapctl restart "$SNAP_NAME"
