@@ -29,11 +29,13 @@ layout:
   /usr/local/share/fonts: # wpe-webkit: Search ALL the fonts!
     bind: $SNAP/usr/share/fonts
 
-slots:
-  cogctl-03:
-    content: cogctl-03
-    read:
-     - $SNAP/bin/cogctl
+#slots:
+#  cogctl-031-1804:
+#    interface: content
+#    content: executables
+#    read:
+#     - $SNAP/bin
+#     - $SNAP/usr/bin
 
 apps:
   browser:
@@ -128,6 +130,7 @@ parts:
       - mesa-va-drivers
       - libgles2-mesa
       - libglib2.0-bin
+      # - dbus-x11
     override-prime: |
       snapcraftctl prime
       glib-compile-schemas usr/share/glib-2.0/schemas/
