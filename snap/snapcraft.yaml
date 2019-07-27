@@ -103,7 +103,7 @@ parts:
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
-      - -DWEB_ENGINE_INCLUDE_DIRS="$SNAPCRAFT_PART_INSTALL"/usr/include/wpe-webkit-1.0;"$SNAPCRAFT_PART_INSTALL"/usr/include/wpe-fdo-1.0;"$SNAPCRAFT_PART_INSTALL"/usr/include/wpe-1.0
+      - -DWEB_ENGINE_INCLUDE_DIRS=$SNAPCRAFT_PART_INSTALL/usr/include/wpe-webkit-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-fdo-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-1.0
     build-packages:
       - ninja-build
       - libsoup2.4-dev
