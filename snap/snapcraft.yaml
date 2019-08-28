@@ -98,8 +98,8 @@ parts:
     plugin: cmake
     source: https://github.com/Igalia/cog.git
     source-tag: v0.3.1
-    build-snaps: [wpe-webkit-libs/latest/candidate]
-    stage-snaps: [wpe-webkit-libs/latest/candidate]
+    build-snaps: [wpe-webkit-libs]
+    stage-snaps: [wpe-webkit-libs]
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
