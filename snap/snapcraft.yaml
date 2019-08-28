@@ -112,7 +112,7 @@ parts:
       - libegl1-mesa-dev
       - wayland-protocols
       - libwayland-bin
-    stage-packages: 
+    stage-packages:
       # Runtime requirements for cog browser
       - glib-networking # required for SSL/TLS support
       - glib-networking-common
