@@ -24,5 +24,6 @@ fi
   -P fdo \
   --bg-color=black \
   --enable-mediasource=1 \
+  --webprocess-failure=restart \
   --enable-write-console-messages-to-stdout="$error_to_console" \
   "$url"
