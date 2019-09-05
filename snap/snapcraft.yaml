@@ -30,13 +30,6 @@ layout:
     bind: $SNAP/usr/share/fonts
 
 slots:
-  #  cogctl-031-1804:
-  #    interface: content
-  #    content: executables
-  #    read:
-  #      - $SNAP/bin
-  #      - $SNAP/usr/bin
-
   dbus-cogctl:
     interface: dbus
     bus: system
