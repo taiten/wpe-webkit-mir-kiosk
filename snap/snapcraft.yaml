@@ -33,7 +33,7 @@ slots:
   dbus-cogctl:
     interface: dbus
     bus: system
-    name: com.Igalia.Cog
+    name: com.igalia.Cog
 
 apps:
   browser:
