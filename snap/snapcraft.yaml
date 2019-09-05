@@ -29,19 +29,25 @@ layout:
   /usr/local/share/fonts: # wpe-webkit: Search ALL the fonts!
     bind: $SNAP/usr/share/fonts
 
-#slots:
-#  cogctl-031-1804:
-#    interface: content
-#    content: executables
-#    read:
-#     - $SNAP/bin
-#     - $SNAP/usr/bin
+slots:
+  #  cogctl-031-1804:
+  #    interface: content
+  #    content: executables
+  #    read:
+  #      - $SNAP/bin
+  #      - $SNAP/usr/bin
+
+  dbus-cogctl:
+    interface: dbus
+    bus: system
+    name: com.Igalia.Cog
 
 apps:
   browser:
     command: desktop-launch $SNAP/bin/snapcraft-preload $SNAP/bin/launch-wpe
     daemon: simple
     restart-condition: always
+    slots: [dbus-cogctl]
     plugs:
       # Auto-connected
       - wayland
