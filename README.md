@@ -15,8 +15,11 @@ The snap should run on [all snapd-supported distributions](https://docs.snapcraf
 - [Configurable](https://docs.snapcraft.io/configuration-in-snaps/510):
   - `url`: Accepts HTTP(S) URLs
   - `devmode`: Toggle Remote Inspector on/off
+  - `error-to-console`: Logs JavaScript errors to the service log instead of the console, useful for remote debugging (check the logs with `snap logs wpe-webkit-mir-kiosk.browser`)
+  - `debug`: Enables (very) verbose debug messaging by setting `G_MESSAGES_DEBUG=all`, `LIBGL_DEBUG=verbose` and `WAYLAND_DEBUG=1`. Useful only if the browser won't start at all or has critical rendering issues, as this will definitely spam your logs.
 - Browsing works with [auto-connected interfaces](https://docs.snapcraft.io/interface-management/6154)
 - Ships manually connected interfaces for advanced use (Bonjour/zeroconf etc.)
+- Exposes the `com.igalia.Cog` D-Bus service on the **system** bus. This allows snaps that plug this interface to remote-control the Cog browser with all commands that upstream `cogctl` [currently provides](https://github.com/Igalia/cog/blob/31d9d6a77717c4f4686f915f6df441f8dfcb2fba/cogctl.c#L256). See [snapcraft docs](https://snapcraft.io/docs/dbus-interface) for more information.
 
 ## Components
 
