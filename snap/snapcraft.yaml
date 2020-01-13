@@ -93,9 +93,9 @@ parts:
     stage-packages:
       - libstdc++6
 
-# See Source/cmake/WebKitFeatures.cmake for build-time options.
-# See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
-# See Source/cmake/OptionsWPE.cmake for required packages.
+  # See Source/cmake/WebKitFeatures.cmake for build-time options.
+  # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
+  # See Source/cmake/OptionsWPE.cmake for required packages.
   cog:
     plugin: cmake
     source: https://github.com/Igalia/cog.git
@@ -107,7 +107,7 @@ parts:
       - -GNinja
       - -DCOG_DBUS_SYSTEM_BUS=ON
       - -DWEB_ENGINE_INCLUDE_DIRS=$SNAPCRAFT_PART_INSTALL/usr/include/wpe-webkit-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-fdo-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-1.0
-      build-packages:
+    build-packages:
       - ninja-build
       - libsoup2.4-dev
       - libxkbcommon-dev
