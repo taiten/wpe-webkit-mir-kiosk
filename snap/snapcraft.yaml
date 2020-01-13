@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
 base: core18
-version: "2.24.3" # wpe-webkit release version. TODO: use adopt-info
+version: "2.26.2" # wpe-webkit release version. TODO: use adopt-info
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
@@ -93,10 +93,13 @@ parts:
     stage-packages:
       - libstdc++6
 
+# See Source/cmake/WebKitFeatures.cmake for build-time options.
+# See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
+# See Source/cmake/OptionsWPE.cmake for required packages.
   cog:
     plugin: cmake
     source: https://github.com/Igalia/cog.git
-    source-tag: v0.3.1
+    source-tag: v0.4.0
     build-snaps: [wpe-webkit-libs]
     stage-snaps: [wpe-webkit-libs]
     configflags:
@@ -104,7 +107,7 @@ parts:
       - -GNinja
       - -DCOG_DBUS_SYSTEM_BUS=ON
       - -DWEB_ENGINE_INCLUDE_DIRS=$SNAPCRAFT_PART_INSTALL/usr/include/wpe-webkit-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-fdo-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-1.0
-    build-packages:
+      build-packages:
       - ninja-build
       - libsoup2.4-dev
       - libxkbcommon-dev
