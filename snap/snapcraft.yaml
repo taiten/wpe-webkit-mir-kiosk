@@ -133,7 +133,6 @@ parts:
       - mesa-va-drivers
       - libgles2-mesa
       - libglib2.0-bin
-      # - dbus-x11
     override-prime: |
       snapcraftctl prime
       glib-compile-schemas usr/share/glib-2.0/schemas/
