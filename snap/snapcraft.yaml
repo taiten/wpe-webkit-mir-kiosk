@@ -93,6 +93,8 @@ parts:
     stage-packages:
       - libstdc++6
       - lib32stdc++6
+    stage:
+      - -usr/share/doc
 
   # See Source/cmake/WebKitFeatures.cmake for build-time options.
   # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
