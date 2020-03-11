@@ -92,7 +92,8 @@ parts:
           - g++-multilib
     stage-packages:
       - libstdc++6
-      - lib32stdc++6
+      - on amd64:
+          - lib32stdc++6
     stage:
       - -usr/share/doc
 
