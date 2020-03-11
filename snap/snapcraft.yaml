@@ -92,6 +92,7 @@ parts:
           - g++-multilib
     stage-packages:
       - libstdc++6
+      - lib32stdc++6
 
   # See Source/cmake/WebKitFeatures.cmake for build-time options.
   # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
