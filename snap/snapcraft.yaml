@@ -149,6 +149,7 @@ parts:
       # see https://stackoverflow.com/questions/28953925/glib-gio-error-no-gsettings-schemas-are-installed-on-the-system
       # creates ca-certificates.crt on build host and copies to snap prime dir
       update-ca-certificates
+      mkdir -p etc/ssl/certs
       cp /etc/ssl/certs/ca-certificates.crt etc/ssl/certs/
 
   launch-wpe:
