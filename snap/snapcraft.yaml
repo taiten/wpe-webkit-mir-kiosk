@@ -135,9 +135,18 @@ parts:
       - libavahi-glib1
       - libavahi-common3
       - libavahi-client3
-      # WPE prebuilt packages;
-      - libwpewebkit-1.0-3
+      - libwayland-cursor0
+      # dependencies listed for cog 0.4.0 debian package:
+      - libegl1
+      - libglib2.0-0
+      - libsoup2.4-1
+      - libwayland-client0
+      - libwayland-egl1
+      # WPE prebuilt packages:
+      - libwpe-1.0-1
       - libwpebackend-fdo-1.0-1
+      - libwpewebkit-1.0-3
+      - libxkbcommon0
       # FIXME: Really required on Ubuntu Core?
       - libgl1-mesa-dri
       - mesa-va-drivers
