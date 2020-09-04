@@ -106,7 +106,7 @@ parts:
     source-tag: v0.4.0
     build-snaps: [wpe-webkit-libs]
     stage-snaps: [wpe-webkit-libs]
-    configflags:
+    cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
       - -DCOG_DBUS_SYSTEM_BUS=ON
