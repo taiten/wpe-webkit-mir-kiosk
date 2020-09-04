@@ -103,7 +103,7 @@ parts:
   cog:
     plugin: cmake
     source: https://github.com/Igalia/cog.git
-    source-tag: v0.4.0
+    source-tag: v0.6.0
     #build-snaps: [wpe-webkit-libs]
     #stage-snaps: [wpe-webkit-libs]
     cmake-parameters:
