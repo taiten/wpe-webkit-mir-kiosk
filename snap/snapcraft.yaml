@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
-version: "2.26.4" # wpe-webkit release version. TODO: use adopt-info
 base: core20
+version: "2.28.1" # wpe-webkit release version. TODO: use adopt-info
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
@@ -104,13 +104,13 @@ parts:
     plugin: cmake
     source: https://github.com/Igalia/cog.git
     source-tag: v0.4.0
-    build-snaps: [wpe-webkit-libs]
-    stage-snaps: [wpe-webkit-libs]
+    #build-snaps: [wpe-webkit-libs]
+    #stage-snaps: [wpe-webkit-libs]
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -GNinja
       - -DCOG_DBUS_SYSTEM_BUS=ON
-      - -DWEB_ENGINE_INCLUDE_DIRS=$SNAPCRAFT_PART_INSTALL/usr/include/wpe-webkit-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-fdo-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-1.0
+      # - -DWEB_ENGINE_INCLUDE_DIRS=$SNAPCRAFT_PART_INSTALL/usr/include/wpe-webkit-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-fdo-1.0;$SNAPCRAFT_PART_INSTALL/usr/include/wpe-1.0
     build-packages:
       - ninja-build
       - libsoup2.4-dev
@@ -119,6 +119,9 @@ parts:
       - libegl1-mesa-dev
       - wayland-protocols
       - libwayland-bin
+      # WPE prebuilt dev packages
+      - libwpewebkit-1.0-dev
+      - libwpebackend-fdo-1.0-dev
     stage-packages:
       # Runtime requirements for cog browser
       - glib-networking # required for SSL/TLS support
@@ -132,6 +135,9 @@ parts:
       - libavahi-glib1
       - libavahi-common3
       - libavahi-client3
+      # WPE prebuilt packages;
+      - libwpewebkit-1.0-3
+      - libwpebackend-fdo-1.0-1
       # FIXME: Really required on Ubuntu Core?
       - libgl1-mesa-dri
       - mesa-va-drivers
