@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
-base: core18
 version: "2.26.4" # wpe-webkit release version. TODO: use adopt-info
+base: core20
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
