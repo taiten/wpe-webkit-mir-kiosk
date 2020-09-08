@@ -146,6 +146,8 @@ parts:
       update-ca-certificates
       mkdir -p etc/ssl/certs
       cp /etc/ssl/certs/ca-certificates.crt etc/ssl/certs/
+    organize:
+      usr/local/: /
 
   launch-wpe:
     plugin: dump
