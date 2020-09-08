@@ -159,4 +159,4 @@ parts:
     plugin: dump
     source: src/watcher
     organize:
-      watcher: bin/
+      watcher.sh: bin/
