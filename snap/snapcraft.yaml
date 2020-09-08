@@ -37,7 +37,7 @@ slots:
 
 apps:
   browser:
-    command: desktop-launch $SNAP/bin/snapcraft-preload $SNAP/bin/launch-wpe
+    command: desktop-launch $SNAP/bin/launch-wpe
     daemon: simple
     restart-condition: always
     slots: [dbus-cogctl]
@@ -82,20 +82,6 @@ parts:
       - libglib2.0-dev
     stage-packages:
       - libglib2.0-bin
-
-  snapcraft-preload:
-    source: https://github.com/sergiusens/snapcraft-preload.git
-    plugin: cmake
-    build-packages:
-      - on amd64:
-          - gcc-multilib
-          - g++-multilib
-    stage-packages:
-      - libstdc++6
-      - on amd64:
-          - lib32stdc++6
-    stage:
-      - -usr/share/doc
 
   # See Source/cmake/WebKitFeatures.cmake for build-time options.
   # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
