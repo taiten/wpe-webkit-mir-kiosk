@@ -37,7 +37,7 @@ slots:
 
 apps:
   browser:
-    command: desktop-launch $SNAP/bin/launch-wpe
+    command: bin/desktop-launch $SNAP/bin/launch-wpe
     daemon: simple
     restart-condition: always
     slots: [dbus-cogctl]
