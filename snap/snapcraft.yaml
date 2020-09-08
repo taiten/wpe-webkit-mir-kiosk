@@ -154,3 +154,9 @@ parts:
     source: src/launcher
     organize:
       launch-wpe: bin/
+
+  restart-watcher:
+    plugin: dump
+    source: src/watcher
+    organize:
+      watcher: bin/
