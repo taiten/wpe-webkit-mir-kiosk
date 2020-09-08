@@ -56,6 +56,9 @@ apps:
       - hostname-control
       - process-control
       # - browser-support # TODO: Use this if/when we can get rid of preload/desktop-launch
+  restart-watcher:
+    command: bin/watcher.sh
+    daemon: simple
 
     environment:
       LIBGL_DRIVERS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri
