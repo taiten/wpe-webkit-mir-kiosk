@@ -161,5 +161,7 @@ parts:
   restart-watcher:
     plugin: dump
     source: src/watcher
+    stage-packages:
+      - inotify-tools
     organize:
       watcher.sh: bin/
