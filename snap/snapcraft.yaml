@@ -65,6 +65,11 @@ apps:
     daemon: simple
     restart-condition: always
 
+  mir-kiosk-wpe-webkit:
+    command-chain:
+      - bin/wayland-launch
+    command: bin/launch-wpe
+
 parts:
   mir-kiosk-snap-launch:
     plugin: dump
