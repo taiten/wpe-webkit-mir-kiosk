@@ -66,6 +66,13 @@ apps:
     restart-condition: always
 
 parts:
+  mir-kiosk-snap-launch:
+    plugin: dump
+    source: https://github.com/MirServer/mir-kiosk-snap-launch.git
+    override-build: $SNAPCRAFT_PART_BUILD/build-with-plugs.sh opengl pulseaudio wayland
+    stage-packages:
+      - inotify-tools
+
   # See Source/cmake/WebKitFeatures.cmake for build-time options.
   # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
   # See Source/cmake/OptionsWPE.cmake for required packages.
