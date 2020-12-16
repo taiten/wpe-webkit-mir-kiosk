@@ -29,6 +29,22 @@ layout:
   /usr/local/share/fonts: # wpe-webkit: Search ALL the fonts!
     bind: $SNAP/usr/share/fonts
 
+environment:
+  LIBGL_DRIVERS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri
+  # cf. https://tutorials.ubuntu.com/tutorial/wayland-kiosk#9
+  # Liberally adapted from
+  # https://github.com/MirServer/mir-kiosk-apps/blob/master/snap/snapcraft.yaml
+  # Some might not be needed, but omitting some would either crash
+  # the WPE renderer process or cause AppArmor denials
+  __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
+  XKB_CONFIG_ROOT: ${SNAP}/usr/share/X11/xkb
+  XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:$XDG_CONFIG_DIRS
+  XDG_DATA_DIRS: ${SNAP}/usr/share:$XDG_DATA_DIRS
+  XDG_DATA_HOME: ${SNAP}/usr/share
+  XDG_CACHE_HOME: $SNAP_COMMON/cache
+  FONTCONFIG_PATH: ${SNAP}/etc/fonts/conf.d
+  FONTCONFIG_FILE: ${SNAP}/etc/fonts/fonts.conf
+
 plugs:
   # Auto-connected
   wayland:
