@@ -1,11 +1,5 @@
-#!/bin/sh -e
-
-# Initialize configuration with default values
-snapctl set \
-    url="https://wpewebkit.org" \
-    devmode="false" \
-    debug="false" \
-    error-to-console="false"
+#!/bin/sh
+set -x
 
 if [ "$(snapctl get daemon)" = "" ]; then
     if grep -q -e snap_core= -e snapd_recovery_mode= /proc/cmdline; then
