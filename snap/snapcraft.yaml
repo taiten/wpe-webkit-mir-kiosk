@@ -90,7 +90,7 @@ apps:
     daemon: simple
     restart-condition: always
 
-  mir-kiosk-wpe-webkit:
+  cog:
     command-chain:
       - bin/wayland-launch
     command: bin/launch-wpe
