@@ -24,6 +24,8 @@ layout:
     bind: $SNAP/etc/fonts/conf.avail
   /etc/ssl/certs/ca-certificates.crt:
     bind-file: $SNAP/etc/ssl/certs/ca-certificates.crt
+  /usr/share/X11:
+    bind: $SNAP/usr/share/X11
   /usr/share/fonts:
     bind: $SNAP/usr/share/fonts
   /usr/local/share/fonts: # wpe-webkit: Search ALL the fonts!
