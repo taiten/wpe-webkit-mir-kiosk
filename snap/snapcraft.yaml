@@ -147,12 +147,12 @@ parts:
     # latest stable release
     source: https://wpewebkit.org/releases/wpewebkit-2.30.5.tar.xz
     plugin: cmake
-    configflags:
+    cmake-generator: Ninja
+    cmake-parameters:
       - -DPORT=WPE
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX:PATH=/usr
       - -DENABLE_BUBBLEWRAP_SANDBOX=OFF
-      - -GNinja
     build-packages:
       - build-essential
       - gperf
