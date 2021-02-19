@@ -233,7 +233,7 @@ parts:
     # export CXX=/usr/bin/clang++
     # snapcraftctl build
     override-build: |
-      WPE_VERSION=$(grep -E 'SET_PROJECT_VERSION\(\d+ \d+ \d+\)' "$SNAPCRAFT_PART_SRC/Source/cmake/OptionsWPE.cmake" | tr -d '[:alpha:]_()')
+      WPE_VERSION=$(grep -E 'SET_PROJECT_VERSION' "$SNAPCRAFT_PART_SRC/Source/cmake/OptionsWPE.cmake" | tr -d '[:alpha:]_()')
       VERSION_STRING=$(echo "$WPE_VERSION" | tr '[:blank:]' '.')
       WPE_MINOR_VERSION=$(echo "WPE_VERSION" | cut -d' ' -f2)
 
