@@ -103,6 +103,153 @@ parts:
     stage-packages:
       - inotify-tools
 
+  libwpe:
+    plugin: meson
+    # latest stable release
+    source: https://wpewebkit.org/releases/libwpe-1.8.0.tar.xz
+    meson-parameters:
+      - --buildtype=release
+      - --prefix=/usr
+    build-packages:
+      - build-essential
+      - libegl1-mesa-dev
+      - libxkbcommon-dev
+    stage-packages:
+      - libxkbcommon0
+
+  wpebackend-fdo:
+    after: [libwpe]
+    plugin: meson
+    meson-parameters:
+      - --buildtype=release
+      - --prefix=/usr
+    # latest stable release
+    source: https://wpewebkit.org/releases/wpebackend-fdo-1.8.0.tar.xz
+    build-packages:
+      - build-essential
+      - ccache
+      - libegl1
+      - libegl-mesa0
+      - libegl1-mesa-dev
+      - libwayland-egl1
+      - libglib2.0-dev
+      - libepoxy-dev
+      - libxkbcommon-dev
+    stage-packages:
+      - libegl1-mesa
+      - libwayland-egl1
+      - libwayland-client0
+      - libwayland-server0
+      - libxkbcommon0
+
+  wpe-webkit:
+    after: [wpebackend-fdo]
+    # latest stable release
+    source: https://wpewebkit.org/releases/wpewebkit-2.30.5.tar.xz
+    plugin: cmake
+    configflags:
+      - -DPORT=WPE
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX:PATH=/usr
+      - -DENABLE_BUBBLEWRAP_SANDBOX=OFF
+      - -GNinja
+    build-packages:
+      - build-essential
+      - gperf
+      - ninja-build
+      - libcairo2-dev
+      - libepoxy-dev
+      - libgbm-dev
+      - libgcrypt20-dev
+      - libgstreamer-plugins-base1.0-dev
+      - libicu-dev
+      - libjpeg8-dev
+      - libopenjp2-7-dev
+      - libsoup2.4-dev
+      - libsqlite3-dev
+      - libtasn1-6-dev
+      - libwebp-dev
+      - libwoff-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - pkg-config
+      - python
+      - ruby-dev
+      - wayland-protocols
+      # TODO: Are these still required without the minibrowser?
+      - weston
+      - zlib1g-dev
+      - libatk1.0-dev
+      - libatk-bridge2.0-dev
+    stage-packages:
+      - libatk1.0-0 # TODO: Required at runtime?
+      - libatk-bridge2.0-0 # TODO: Required at runtime?
+      - libgpm2
+      - libwayland-client0
+      - libwayland-server0
+      - libcairo2
+      - libepoxy0
+      - libgbm1
+      - libgl1
+      - libglx0
+      - libgcrypt20
+      - libgstreamer-gl1.0-0
+      - libgstreamer-plugins-base1.0-0
+      - libharfbuzz-icu0
+      - libicu60
+      - libjpeg8
+      - libopenjp2-7
+      - liborc-0.4-0
+      - libsoup2.4-1
+      - libsqlite3-0
+      - libtasn1-6
+      - libwebp6
+      - libwebpdemux2
+      - libwoff1
+      - libxml2
+      - libxml2-utils
+      - libxslt1.1
+      - python
+      - ruby
+      - zlib1g
+      # from https://github.com/Igalia/meta-webkit/blob/e0d5fb3c66b910984464f1f22567a0cd618331ae/recipes-browser/wpewebkit/wpewebkit.inc#L87
+      - gstreamer1.0-gl
+      - gstreamer1.0-libav
+      - gstreamer1.0-plugins-base
+      # FIXME: Pull in only packages referenced in Yocto image to avoid bloat
+      - gstreamer1.0-plugins-good
+    # override-pull: |
+    # snapcraftctl pull
+    # Add correct compiler macro for clang
+    # see https://gcc.gnu.org/ml/gcc-patches/2015-07/msg02237.html
+    # Second insertions are source's line number + 1 (from prev insertion)
+    # sed -i '143i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+    # sed -i '184i|| defined(__ARM_ARCH_6KZ__) \\' Source/bmalloc/bmalloc/BPlatform.h
+    # sed -i '188i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
+    # sed -i '236i|| defined(__ARM_ARCH_6KZ__) \\' Source/WTF/wtf/Platform.h
+    # override-build: |
+    # clang err's because some ruby gluecode cannot determine LP builder's endian type, gcc works
+    # export CC=/usr/bin/clang
+    # export CXX=/usr/bin/clang++
+    # snapcraftctl build
+    override-build: |
+      WPE_VERSION=$(grep -E 'SET_PROJECT_VERSION\(\d+ \d+ \d+\)' "$SNAPCRAFT_PART_SRC/Source/cmake/OptionsWPE.cmake" | tr -d '[:alpha:]_()')
+      VERSION_STRING=$(echo "$WPE_VERSION" | tr '[:blank:]' '.')
+      WPE_MINOR_VERSION=$(echo "WPE_VERSION" | cut -d' ' -f2)
+
+      snapcraftctl set-version "$VERSION_STRING"
+
+      # Even-numbered minor versions indicate stable releases. See https://wpewebkit.org/release/schedule/
+      if [ $(( WPE_MINOR_VERSION % 2)) -eq 0 ]; then
+        snapcraftctl set-grade stable
+      else
+        snapcraftctl set-grade devel
+      fi
+
+      snapcraftctl build
+    organize:
+      libexec: usr/
+
   # See Source/cmake/WebKitFeatures.cmake for build-time options.
   # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
   # See Source/cmake/OptionsWPE.cmake for required packages.
