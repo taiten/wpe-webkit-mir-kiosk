@@ -162,6 +162,7 @@ parts:
       - libgbm-dev
       - libgcrypt20-dev
       - libgstreamer-plugins-base1.0-dev
+      - libharfbuzz-dev
       - libicu-dev
       - libjpeg8-dev
       - libopenjp2-7-dev
