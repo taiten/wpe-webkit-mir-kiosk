@@ -254,6 +254,7 @@ parts:
   # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
   # See Source/cmake/OptionsWPE.cmake for required packages.
   cog:
+    after: [wpe-webkit]
     plugin: cmake
     source: https://github.com/Igalia/cog.git
     source-tag: v0.8.0
