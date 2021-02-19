@@ -270,9 +270,6 @@ parts:
       - libegl1-mesa-dev
       - wayland-protocols
       - libwayland-bin
-      # WPE prebuilt dev packages
-      - libwpewebkit-1.0-dev
-      - libwpebackend-fdo-1.0-dev
     stage-packages:
       # Runtime requirements for cog browser
       - glib-networking # required for SSL/TLS support
@@ -288,9 +285,6 @@ parts:
       - libavahi-common3
       - libavahi-client3
       - libwayland-cursor0
-      # WPE prebuilt packages;
-      - libwpewebkit-1.0-3
-      - libwpebackend-fdo-1.0-1
       # dependencies listed for cog 0.4.0 debian package:
       - libxkbcommon0
       - libegl1
