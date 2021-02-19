@@ -196,7 +196,7 @@ parts:
       - libgstreamer-gl1.0-0
       - libgstreamer-plugins-base1.0-0
       - libharfbuzz-icu0
-      - libicu60
+      - libicu66
       - libjpeg8
       - libopenjp2-7
       - liborc-0.4-0
