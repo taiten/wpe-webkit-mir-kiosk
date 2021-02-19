@@ -168,6 +168,7 @@ parts:
       - libopenjp2-7-dev
       - libsoup2.4-dev
       - libsqlite3-dev
+      - libsystemd-dev
       - libtasn1-6-dev
       - libwebp-dev
       - libwoff-dev
@@ -203,6 +204,7 @@ parts:
       - liborc-0.4-0
       - libsoup2.4-1
       - libsqlite3-0
+      - libsystemd0
       - libtasn1-6
       - libwebp6
       - libwebpdemux2
