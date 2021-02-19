@@ -63,6 +63,8 @@ plugs:
   # Manually connected, show up as AppArmor denials but
   # basic browsing seems to work fine without
   avahi-observe: # zeroconf name resolution
+  audio-playback:
+  hardware-observe: # required for /sys/firmware/acpi/pm_profile and /sys/class/dmi/id/chassis_type access
   # snappy-debug suggestions
   network-manager:
   hostname-control:
