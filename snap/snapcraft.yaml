@@ -138,6 +138,7 @@ parts:
       - libxkbcommon-dev
     stage-packages:
       - libegl1-mesa
+      - libepoxy0
       - libwayland-egl1
       - libwayland-client0
       - libwayland-server0
@@ -163,6 +164,7 @@ parts:
       - libgbm-dev
       - libgcrypt20-dev
       - libgstreamer-plugins-base1.0-dev
+      - libgstreamer-plugins-bad1.0-dev
       - libharfbuzz-dev
       - libicu-dev
       - libjpeg8-dev
@@ -185,6 +187,7 @@ parts:
       - libatk1.0-dev
       - libatk-bridge2.0-dev
     stage-packages:
+      - freeglut3
       - libatk1.0-0 # TODO: Required at runtime?
       - libatk-bridge2.0-0 # TODO: Required at runtime?
       - libgpm2
@@ -194,6 +197,7 @@ parts:
       - libepoxy0
       - libgbm1
       - libgl1
+      - libglu1-mesa
       - libglx0
       - libgcrypt20
       - libgstreamer-gl1.0-0
@@ -222,6 +226,7 @@ parts:
       - gstreamer1.0-plugins-base
       # FIXME: Pull in only packages referenced in Yocto image to avoid bloat
       - gstreamer1.0-plugins-good
+      - libgstreamer-plugins-bad1.0
     # override-pull: |
     # snapcraftctl pull
     # Add correct compiler macro for clang
