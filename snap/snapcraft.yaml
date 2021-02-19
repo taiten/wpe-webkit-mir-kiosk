@@ -16,7 +16,7 @@ confinement: strict
 layout:
   # Relies on cmake install prefix $SNAP/usr, /libexec is not allowed
   /usr/libexec/wpe-webkit-1.0:
-    bind: $SNAP/usr/wpe-webkit-1.0
+    bind: $SNAP/usr/libexec/wpe-webkit-1.0
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-1.0:
     bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/wpe-webkit-1.0
   /etc/fonts/conf.avail:
@@ -251,8 +251,6 @@ parts:
       fi
 
       snapcraftctl build
-    organize:
-      libexec: usr/
 
   # See Source/cmake/WebKitFeatures.cmake for build-time options.
   # See Source/cmake/OptionsWPE.cmake for overrides applied by WPE.
@@ -308,8 +306,6 @@ parts:
       update-ca-certificates
       mkdir -p etc/ssl/certs
       cp /etc/ssl/certs/ca-certificates.crt etc/ssl/certs/
-    organize:
-      usr/local/: /
 
   launch-wpe:
     plugin: dump

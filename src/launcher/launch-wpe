@@ -48,7 +48,7 @@ fi
 # This saves the current revision to `$SNAP_USER_DATA/.last_revision`, so expensive operations only run after a refresh.
 [ $needs_update = true ] && echo "SNAP_DESKTOP_LAST_REVISION=$SNAP_REVISION" >"$SNAP_USER_DATA"/.last_revision
 
-"$SNAP"/bin/cog \
+"$SNAP"/usr/bin/cog \
   -P fdo \
   --bg-color=black \
   --enable-mediasource=1 \
