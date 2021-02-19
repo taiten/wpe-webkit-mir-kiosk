@@ -18,6 +18,7 @@ if [[ $debug == true ]]; then
   export G_MESSAGES_DEBUG=all
   export LIBGL_DEBUG=verbose
   export WAYLAND_DEBUG=1
+  export LIBWPE_DEBUG=all
 fi
 
 # Prevent a complete teardown/setup on each run, adapted the update logic from https://github.com/ubuntu/snapcraft-desktop-helpers/blob/1c04184cce644acd07cc01f5255a6405eb89893b/common/init#L32
