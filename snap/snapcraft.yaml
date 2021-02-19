@@ -269,6 +269,7 @@ parts:
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCOG_DBUS_SYSTEM_BUS=ON
+      - -DCMAKE_INSTALL_PREFIX:PATH=/usr
     build-packages:
       - ninja-build
       - libcairo2-dev
