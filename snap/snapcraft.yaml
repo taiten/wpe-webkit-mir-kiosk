@@ -248,7 +248,7 @@ parts:
       snapcraftctl set-version "$WPE_VERSION"
 
       # Even-numbered minor versions indicate stable releases. See https://wpewebkit.org/release/schedule/
-      WPE_MINOR_VERSION=$(echo "$WPE_VERSION" | cut -d' ' -f2)
+      WPE_MINOR_VERSION=$(echo "$WPE_VERSION" | cut -d'.' -f2)
       if [ $(( WPE_MINOR_VERSION % 2)) -eq 0 ]; then
         snapcraftctl set-grade stable
       else
