@@ -1,6 +1,6 @@
 name: wpe-webkit-mir-kiosk
 base: core20
-version: 0.0.0 # override in wpe-webkit part
+adopt-info: wpe-webkit
 summary: WPE Webkit in kiosk mode. Intended for mir-kiosk on embedded devices.
 description: |
   'WPE Webkit (https://wpewebkit.org) is an official fork of the WebKit project.
@@ -9,7 +9,6 @@ description: |
   acceleration in mind, leveraging common 3D graphics APIs for best
   performance.”
   This snap runs the included MiniBrowser as a service in kiosk mode.'
-grade: devel
 confinement: strict
 
 # TODO: Check if these paths can be made relative with compiler flags
@@ -242,13 +241,12 @@ parts:
     # export CXX=/usr/bin/clang++
     # snapcraftctl build
     override-build: |
-      WPE_VERSION=$(grep -E 'SET_PROJECT_VERSION' "$SNAPCRAFT_PART_SRC/Source/cmake/OptionsWPE.cmake" | tr -d '[:alpha:]_()')
-      WPE_MINOR_VERSION=$(echo "WPE_VERSION" | cut -d' ' -f2)
-      VERSION_STRING=$(echo "$WPE_VERSION" | tr '[:blank:]' '.')
+      WPE_VERSION=$(grep -E 'SET_PROJECT_VERSION' "$SNAPCRAFT_PART_SRC/Source/cmake/OptionsWPE.cmake" | tr -d '[:alpha:]_()' | tr '[:blank:]' '.')
 
-      snapcraftctl set-version "$VERSION_STRING"
+      snapcraftctl set-version "$WPE_VERSION"
 
       # Even-numbered minor versions indicate stable releases. See https://wpewebkit.org/release/schedule/
+      WPE_MINOR_VERSION=$(echo "$WPE_VERSION" | cut -d' ' -f2)
       if [ $(( WPE_MINOR_VERSION % 2)) -eq 0 ]; then
         snapcraftctl set-grade stable
       else
