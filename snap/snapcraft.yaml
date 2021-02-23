@@ -42,13 +42,14 @@ environment:
   # https://github.com/MirServer/mir-kiosk-apps/blob/master/snap/snapcraft.yaml
   # Some might not be needed, but omitting some would either crash
   # the WPE renderer process or cause AppArmor denials
-    # XDG config
-  XDG_CACHE_HOME: $SNAP_USER_COMMON/.cache
   __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
+
+  # XDG config, see https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+  XDG_DATA_HOME: ${SNAP_DATA}/usr/share
+  XDG_CONFIG_HOME: ${SNAP_DATA}/.config
+  XDG_DATA_DIRS: ${SNAP_COMMON}/usr/share:${SNAP}/usr/share:$XDG_DATA_DIRS
   XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:$XDG_CONFIG_DIRS
-  XDG_CONFIG_HOME: $SNAP_USER_DATA/.config
-  XDG_DATA_DIRS: ${SNAP}/usr/share:$XDG_DATA_DIRS
-  XDG_DATA_HOME: ${SNAP}/usr/share
+  XDG_CACHE_HOME: ${SNAP_COMMON}/.cache
 
   XKB_CONFIG_ROOT: ${SNAP}/usr/share/X11/xkb
   FONTCONFIG_PATH: ${SNAP}/etc/fonts/conf.d
