@@ -322,7 +322,7 @@ parts:
     plugin: dump
     source: src/launcher
     organize:
-      launch-wpe: bin/
+      $SNAPCRAFT_PART_SRC/*: bin/
 
   restart-watcher:
     plugin: dump
