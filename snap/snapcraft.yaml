@@ -95,6 +95,7 @@ apps:
   cog:
     command-chain:
       - bin/wayland-launch
+      - bin/set-arch-triplet
       - bin/gio-updater
     command: bin/launch-wpe
 

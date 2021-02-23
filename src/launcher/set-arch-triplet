@@ -1,0 +1,35 @@
+#!/bin/bash -e
+
+# Trimmed-down version of Lin-Buo-Ren's debian-multiarch-triplet-provider-launch
+# https://forum.snapcraft.io/t/the-debian-multiarch-triplet-provider-launch-launcher-enable-debian-multiarch-triplet-like-environment-variable-in-the-snap-runtime/11738
+
+declare \
+    X_DEBIAN_MULTIARCH_TRIPLET
+
+# Refer:
+#
+# * Environmental variables - doc - snapcraft.io
+#   https://forum.snapcraft.io/t/environmental-variables/7983
+# * Multiarch/Tuples - Debian Wiki
+#   https://wiki.debian.org/Multiarch/Tuples
+#   NOTE: Only consider Linux archs with the `released` status in Debian for now
+case "${SNAP_ARCH}" in
+# These are the special cases
+amd64)
+    X_DEBIAN_MULTIARCH_TRIPLET=x86_64-linux-gnu
+    ;;
+armel)
+    X_DEBIAN_MULTIARCH_TRIPLET=arm-linux-gnueabi
+    ;;
+armhf)
+    X_DEBIAN_MULTIARCH_TRIPLET=arm-linux-gnueabihf
+    ;;
+arm64)
+    X_DEBIAN_MULTIARCH_TRIPLET=aarch64-linux-gnu
+    ;;
+esac
+
+export \
+    X_DEBIAN_MULTIARCH_TRIPLET
+
+exec "$@"
