@@ -33,7 +33,10 @@ layout:
 
 environment:
   LC_ALL: C.UTF-8
-  LD_LIBRARY_PATH: ${SNAP}/usr/lib:${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}:${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/pulseaudio:${SNAP}/lib:${SNAP}/lib/${SNAPCRAFT_ARCH_TRIPLET}
+  GST_PLUGIN_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}gstreamer-1.0
+  GST_PLUGIN_SYSTEM_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}gstreamer-1.0
+  GST_PLUGIN_SCANNER: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
+  LD_LIBRARY_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/pulseaudio
 
   LIBGL_DRIVERS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri
   LIBVA_DRIVERS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri
