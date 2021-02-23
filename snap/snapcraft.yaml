@@ -44,13 +44,6 @@ environment:
   # the WPE renderer process or cause AppArmor denials
   __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
 
-  # XDG config, see https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-  XDG_DATA_HOME: ${SNAP_DATA}/usr/share
-  XDG_CONFIG_HOME: ${SNAP_DATA}/.config
-  XDG_DATA_DIRS: ${SNAP_COMMON}/usr/share:${SNAP}/usr/share:$XDG_DATA_DIRS
-  XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:$XDG_CONFIG_DIRS
-  XDG_CACHE_HOME: ${SNAP_COMMON}/.cache
-
   XKB_CONFIG_ROOT: ${SNAP}/usr/share/X11/xkb
   FONTCONFIG_PATH: ${SNAP}/etc/fonts/conf.d
   FONTCONFIG_FILE: ${SNAP}/etc/fonts/fonts.conf
@@ -90,6 +83,13 @@ apps:
     daemon: simple
     restart-condition: always
     slots: [dbus-cogctl]
+    environment:
+      # XDG config, see https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+      XDG_DATA_HOME: ${SNAP_DATA}/usr/share
+      XDG_CONFIG_HOME: ${SNAP_DATA}/.config
+      XDG_DATA_DIRS: ${SNAP_COMMON}/usr/share:${SNAP}/usr/share:$XDG_DATA_DIRS
+      XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:${XDG_CONFIG_DIRS}
+      XDG_CACHE_HOME: ${SNAP_COMMON}/.cache
   restart-watcher:
     command: bin/watcher.sh
     daemon: simple
@@ -101,7 +101,13 @@ apps:
       - bin/set-arch-triplet
       - bin/gio-updater
     command: bin/launch-wpe
-
+    environment:
+      # XDG config, see https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+      XDG_DATA_HOME: ${SNAP_USER_DATA}/usr/share
+      XDG_CONFIG_HOME: ${SNAP_USER_DATA}/.config
+      XDG_DATA_DIRS: ${SNAP_USER_COMMON}/usr/share:${SNAP}/usr/share:${XDG_DATA_DIRS}
+      XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:$XDG_CONFIG_DIRS
+      XDG_CACHE_HOME: ${SNAP_USER_COMMON}/.cache
 parts:
   mir-kiosk-snap-launch:
     plugin: dump
