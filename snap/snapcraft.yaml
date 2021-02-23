@@ -232,7 +232,7 @@ parts:
       - gstreamer1.0-plugins-base
       # FIXME: Pull in only packages referenced in Yocto image to avoid bloat
       - gstreamer1.0-plugins-good
-      - libgstreamer-plugins-bad1.0-0
+      - gstreamer1.0-plugins-bad
     # override-pull: |
     # snapcraftctl pull
     # Add correct compiler macro for clang
