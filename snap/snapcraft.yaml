@@ -84,6 +84,8 @@ apps:
     command-chain:
       - bin/run-daemon
       - bin/wayland-launch
+      - bin/set-arch-triplet
+      - bin/gio-updater
     command: bin/launch-wpe
     daemon: simple
     restart-condition: always
