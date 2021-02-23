@@ -1,0 +1,30 @@
+#!/bin/bash -e
+
+# Prevent a complete teardown/setup on each run, adapted the update logic from https://github.com/ubuntu/snapcraft-desktop-helpers/blob/1c04184cce644acd07cc01f5255a6405eb89893b/common/init#L32
+# This saves the current revision to `$SNAP_USER_DATA/.last_revision`, so expensive operations only run after a refresh.
+
+needs_update=true
+# shellcheck source=/dev/null
+. "$SNAP_USER_DATA"/.last_revision 2>/dev/null || true
+if [ "$SNAP_DESKTOP_LAST_REVISION" = "$SNAP_REVISION" ]; then
+    needs_update=false
+fi
+
+# Adapted Gio setup from glib-only desktop helper: https://github.com/ubuntu/snapcraft-desktop-helpers/blob/1c04184cce644acd07cc01f5255a6405eb89893b/common/desktop-exports#L327
+# This can't be run on install since the user-specific paths do not exist yet.
+export GIO_MODULE_DIR=$XDG_CACHE_HOME/gio-modules
+if [ $needs_update = true ]; then
+    if [ -f "$SNAP"/usr/lib/"$X_DEBIAN_MULTIARCH_TRIPLET"/glib-2.0/gio-querymodules ]; then
+        rm -rf "$GIO_MODULE_DIR"
+        [ -d "$GIO_MODULE_DIR" ] || mkdir -p "$GIO_MODULE_DIR"
+        ln -s "$SNAP"/usr/lib/"$X_DEBIAN_MULTIARCH_TRIPLET"/gio/modules/*.so "$GIO_MODULE_DIR"
+        "$SNAP"/usr/lib/"$X_DEBIAN_MULTIARCH_TRIPLET"/glib-2.0/gio-querymodules "$GIO_MODULE_DIR"
+    fi
+fi
+
+# TODO: Add pulseaudio setup when required. @see https://github.com/ubuntu/snapcraft-desktop-helpers/blob/1c04184cce644acd07cc01f5255a6405eb89893b/common/desktop-exports#L92
+
+# This saves the current revision to `$SNAP_USER_DATA/.last_revision`, so expensive operations only run after a refresh.
+[ $needs_update = true ] && echo "SNAP_DESKTOP_LAST_REVISION=$SNAP_REVISION" >"$SNAP_USER_DATA"/.last_revision
+
+exec "$@"

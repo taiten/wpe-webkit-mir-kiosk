@@ -95,6 +95,7 @@ apps:
   cog:
     command-chain:
       - bin/wayland-launch
+      - bin/gio-updater
     command: bin/launch-wpe
 
 parts:
