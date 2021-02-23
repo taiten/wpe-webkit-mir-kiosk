@@ -195,9 +195,12 @@ parts:
       - libwayland-client0
       - libwayland-server0
       - libcairo2
+      - libdrm2
       - libepoxy0
       - libgbm1
       - libgl1
+      - libgl1-mesa-dri
+      - libgl1-mesa-glx
       - libglu1-mesa
       - libglx0
       - libgcrypt20
