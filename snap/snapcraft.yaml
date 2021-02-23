@@ -267,7 +267,7 @@ parts:
     after: [wpe-webkit]
     plugin: cmake
     source: https://github.com/Igalia/cog.git
-    source-tag: v0.8.0
+    source-tag: v0.8.1
     cmake-generator: Ninja
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
