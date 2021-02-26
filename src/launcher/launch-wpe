@@ -15,6 +15,7 @@ if [[ $debug == true ]]; then
   export LIBGL_DEBUG=verbose
   export WAYLAND_DEBUG=1
   export LIBWPE_DEBUG=all
+  export WEBKIT_SHOW_FPS=1
 fi
 
 "$SNAP"/usr/bin/cog \
