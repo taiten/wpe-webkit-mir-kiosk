@@ -12,6 +12,6 @@ inotifywait --event delete --format '%f' /run/user/0 | while IFS=' ' read -r fil
             echo "Wayland socket not yet available"
             sleep 2
         done
-        snapctl restart "$SNAP_NAME".browser
+        snapctl restart "$SNAP_NAME".daemon
     fi
 done
