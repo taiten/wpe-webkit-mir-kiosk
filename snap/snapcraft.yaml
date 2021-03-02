@@ -94,7 +94,7 @@ apps:
       XDG_CONFIG_DIRS: ${SNAP}/etc/xdg:${XDG_CONFIG_DIRS}
       XDG_CACHE_HOME: ${SNAP_COMMON}/.cache
   restart-watcher:
-    command: bin/watcher.sh
+    command: bin/watcher
     daemon: simple
     restart-condition: always
 
@@ -339,4 +339,4 @@ parts:
     stage-packages:
       - inotify-tools
     organize:
-      watcher.sh: bin/
+      watcher: bin/
