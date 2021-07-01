@@ -243,8 +243,6 @@ parts:
       # FIXME: Pull in only packages referenced in Yocto image to avoid bloat
       - gstreamer1.0-plugins-good
       - gstreamer1.0-plugins-bad
-      - on amd64,i386:
-          - va-driver-all
     # override-pull: |
     # snapcraftctl pull
     # Add correct compiler macro for clang
