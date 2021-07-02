@@ -27,3 +27,13 @@ The snap should run on [all snapd-supported distributions](https://docs.snapcraf
   - `libwpe`
   - [WPE FDO backend](https://github.com/Igalia/WPEBackend-fdo)
 - [Cog](https://github.com/Igalia/cog) launcher/webapp container
+
+## Enable Hardware Acceleration
+
+- Install mesa-core20 snap from snap store
+  - `snap install mesa-core20` 
+  - For upstream supported graphics
+    - `snap connect wpe-webkit-mir-kiosk:graphics-core20 mesa-core20:graphics-core20`
+  - For specific hardware platform
+    - `snap connect wpe-webkit-mir-kiosk:graphics-core20 mesa-core20:graphics-core20`
+    - `snap connect wpe-webkit-mir-kiosk:graphics-core20 vendor-mesa-core20:graphcis-core20`

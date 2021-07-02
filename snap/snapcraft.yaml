@@ -36,10 +36,10 @@ environment:
   GST_PLUGIN_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/gstreamer-1.0
   GST_PLUGIN_SYSTEM_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/gstreamer-1.0
   GST_PLUGIN_SCANNER: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
-  LD_LIBRARY_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/pulseaudio
+  LD_LIBRARY_PATH: ${SNAP}/graphics/lib:${SNAP}/graphics-2/lib:${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/pulseaudio
 
-  LIBGL_DRIVERS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri
-  LIBVA_DRIVERS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri
+  LIBGL_DRIVERS_PATH: ${SNAP}/graphics/dri:${SNAP}/graphics-2/dri
+  LIBVA_DRIVERS_PATH: ${SNAP}/graphics/dri:${SNAP}/graphics-2/dri
   # cf. https://tutorials.ubuntu.com/tutorial/wayland-kiosk#9
   # Liberally adapted from
   # https://github.com/MirServer/mir-kiosk-apps/blob/master/snap/snapcraft.yaml
@@ -68,6 +68,12 @@ plugs:
   hostname-control:
   process-control:
   # - browser-support # TODO: Use this if/when we can get rid of preload/desktop-launch
+  system-observe: # required for /proc/zoneinfo access
+  graphics-core20:
+    interface: content
+    target: $SNAP/graphics
+    default-provider: mesa-core20
+
 
 slots:
   dbus-cogctl:
@@ -342,3 +348,16 @@ parts:
       - inotify-tools
     organize:
       watcher: bin/
+
+  cleanup-mesa:
+    after: [libwpe, wpebackend-fdo, wpe-webkit, cog, mir-kiosk-snap-launch]
+    plugin: nil
+    build-snaps: [ mesa-core20 ]
+    override-prime: |
+      set -eux
+      cd /snap/mesa-core20/current/egl/lib
+      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/{} \;
+      rm -fr "$SNAPCRAFT_PRIME/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/dri"
+      for CRUFT in bug lintian man; do
+        rm -rf "$SNAPCRAFT_PRIME/usr/share/$CRUFT"
+      done
